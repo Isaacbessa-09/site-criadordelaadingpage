@@ -10,18 +10,47 @@ export default function Home() {
   const router = useRouter();
   const [pages, setPages] = useState<PageDoc[] | null>(null);
   const [creating, setCreating] = useState<string | null>(null);
+  const [error, setError] = useState("");
+  const [status, setStatus] = useState<{ storage: string; images: string; ai: boolean; password: boolean; onVercel: boolean } | null>(null);
 
-  const load = () => fetch("/api/pages").then((r) => r.json()).then(setPages);
+  const load = () =>
+    fetch("/api/pages")
+      .then(async (r) => {
+        const d = await r.json();
+        if (!r.ok) throw new Error(d.error);
+        setPages(d);
+      })
+      .catch((e) => {
+        setPages([]);
+        setError(e.message);
+      });
   useEffect(() => {
     load();
+    fetch("/api/status").then((r) => r.json()).then(setStatus).catch(() => {});
   }, []);
 
   async function create(templateId: string) {
     setCreating(templateId);
-    const r = await fetch("/api/pages", { method: "POST", body: JSON.stringify({ templateId }) });
-    const page = await r.json();
-    router.push(`/editor/${page.id}`);
+    setError("");
+    try {
+      const r = await fetch("/api/pages", { method: "POST", body: JSON.stringify({ templateId }) });
+      const d = await r.json();
+      if (!r.ok || !d.id) throw new Error(d.error || "Não foi possível criar a página.");
+      router.push(`/editor/${d.id}`);
+    } catch (e) {
+      setError((e as Error).message);
+      setCreating(null);
+    }
   }
+
+  const missing = status
+    ? [
+        status.storage === "ausente" && "Banco de dados (Storage > Upstash for Redis) — sem ele não dá para criar páginas",
+        status.images === "ausente" && "Imagens (Storage > Blob) — sem ele não dá para enviar fotos e logo",
+        !status.ai && "Chave da IA (variável ANTHROPIC_API_KEY)",
+        status.onVercel && !status.password && "Senha do editor (variável APP_PASSWORD) — hoje qualquer pessoa pode editar",
+      ].filter(Boolean)
+    : [];
 
   async function remove(p: PageDoc) {
     if (!confirm(`Excluir "${p.name}"? Isso também tira a página do ar e não pode ser desfeito.`)) return;
@@ -42,6 +71,19 @@ export default function Home() {
           </div>
         </div>
       </header>
+
+      {missing.length > 0 && (
+        <div className="mb-10 rounded-2xl border border-amber-300 bg-amber-50 p-5 text-sm text-amber-900">
+          <div className="font-semibold">Falta configurar na Vercel:</div>
+          <ul className="mt-2 list-disc space-y-1 pl-5">
+            {missing.map((m) => (
+              <li key={m as string}>{m}</li>
+            ))}
+          </ul>
+          <p className="mt-3 text-amber-800">Depois de configurar, vá em Deployments e clique em Redeploy.</p>
+        </div>
+      )}
+      {error && <div className="mb-10 rounded-2xl border border-red-200 bg-red-50 p-5 text-sm text-red-800">{error}</div>}
 
       <section>
         <h2 className="text-3xl font-semibold tracking-tight">Escolha um template</h2>

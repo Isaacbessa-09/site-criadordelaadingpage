@@ -12,7 +12,7 @@ export async function GET(_req: NextRequest, ctx: RouteContext<"/api/uploads/[na
   const safe = path.basename(name);
   const ext = safe.split(".").pop() ?? "";
   try {
-    const buf = await fs.readFile(path.join(UPLOADS, safe));
+    const buf = await fs.readFile(path.join(/*turbopackIgnore: true*/ UPLOADS, safe));
     return new Response(new Uint8Array(buf), {
       headers: { "Content-Type": TYPES[ext] ?? "application/octet-stream", "Cache-Control": "public, max-age=31536000, immutable" },
     });

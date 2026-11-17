@@ -14,9 +14,19 @@ import type { PageDoc } from "./types";
 const DATA = path.join(/*turbopackIgnore: true*/ process.cwd(), "data");
 export const UPLOADS = path.join(DATA, "uploads");
 
-const redisUrl = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
-const redisToken = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
+/** Acha a variável mesmo com prefixo (ex: STORAGE_KV_REST_API_URL, que a Vercel às vezes cria). */
+function findEnv(suffixes: string[]): string | undefined {
+  for (const s of suffixes) if (process.env[s]) return process.env[s];
+  const key = Object.keys(process.env).find((k) => suffixes.some((s) => k.endsWith(s)) && !k.includes("READ_ONLY"));
+  return key ? process.env[key] : undefined;
+}
+const redisUrl = findEnv(["KV_REST_API_URL", "UPSTASH_REDIS_REST_URL"]);
+const redisToken = findEnv(["KV_REST_API_TOKEN", "UPSTASH_REDIS_REST_TOKEN"]);
 const redis = redisUrl && redisToken ? new Redis({ url: redisUrl, token: redisToken }) : null;
+const onVercel = !!process.env.VERCEL;
+
+export const STORAGE_MISSING =
+  "Banco de dados não configurado na Vercel. No projeto, vá em Storage > Create > Upstash for Redis, conecte ao projeto e faça Redeploy.";
 
 interface Backend {
   get(kind: "page" | "pub", key: string): Promise<PageDoc | null>;
@@ -68,8 +78,34 @@ const fileBackend: Backend = {
   },
 };
 
-const db: Backend = redis ? redisBackend(redis) : fileBackend;
-export const usingCloud = !!redis;
+// Na Vercel o disco é somente leitura: sem Redis, avisa com uma mensagem clara.
+const missingBackend: Backend = {
+  async get() {
+    throw new Error(STORAGE_MISSING);
+  },
+  async put() {
+    throw new Error(STORAGE_MISSING);
+  },
+  async del() {
+    throw new Error(STORAGE_MISSING);
+  },
+  async listPages() {
+    throw new Error(STORAGE_MISSING);
+  },
+};
+
+const db: Backend = redis ? redisBackend(redis) : onVercel ? missingBackend : fileBackend;
+
+export function storageStatus() {
+  return {
+    storage: redis ? "redis" : onVercel ? "ausente" : "arquivos",
+    images: findEnv(["BLOB_READ_WRITE_TOKEN"]) ? "blob" : onVercel ? "ausente" : "arquivos",
+    ai: !!(process.env.ANTHROPIC_API_KEY || process.env.ANTHROPIC_AUTH_TOKEN),
+    password: !!process.env.APP_PASSWORD,
+    onVercel,
+  };
+}
+export const blobToken = () => findEnv(["BLOB_READ_WRITE_TOKEN"]);
 
 const safeId = (id: string) => id.replace(/[^a-zA-Z0-9_-]/g, "");
 export const slugify = (s: string) =>

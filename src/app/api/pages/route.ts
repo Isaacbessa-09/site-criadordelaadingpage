@@ -1,7 +1,13 @@
 import { createFromTemplate, listPages } from "@/lib/storage";
 
+const fail = (e: unknown) => Response.json({ error: (e as Error).message }, { status: 500 });
+
 export async function GET() {
-  return Response.json(await listPages());
+  try {
+    return Response.json(await listPages());
+  } catch (e) {
+    return fail(e);
+  }
 }
 
 export async function POST(req: Request) {
@@ -9,6 +15,6 @@ export async function POST(req: Request) {
   try {
     return Response.json(await createFromTemplate(templateId, name));
   } catch (e) {
-    return Response.json({ error: (e as Error).message }, { status: 400 });
+    return fail(e);
   }
 }

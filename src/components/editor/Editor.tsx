@@ -37,7 +37,7 @@ export function Editor({ id }: { id: string }) {
   /* carregar */
   useEffect(() => {
     fetch(`/api/pages/${id}`).then(async (r) => {
-      if (!r.ok) return setError("Página não encontrada.");
+      if (!r.ok) return setError((await r.json().catch(() => null))?.error || "Página não encontrada.");
       useEditor.getState().load(await r.json());
       loaded.current = true;
     });
