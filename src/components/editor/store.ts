@@ -123,7 +123,35 @@ export const actions = {
 };
 
 /* ---------- utilidades ---------- */
-export async function uploadFile(file: File): Promise<string> {
+/** Comprime fotos no navegador (máx. 2000px, WebP) antes de enviar. SVG e GIF vão como estão. */
+async function compressImage(file: File, max = 2000): Promise<File> {
+  if (!/^image\/(jpeg|png|webp|avif)$/.test(file.type)) return file;
+  const url = URL.createObjectURL(file);
+  try {
+    const img = new Image();
+    await new Promise((r, j) => {
+      img.onload = r;
+      img.onerror = j;
+      img.src = url;
+    });
+    const scale = Math.min(1, max / Math.max(img.width, img.height));
+    const c = document.createElement("canvas");
+    c.width = Math.round(img.width * scale);
+    c.height = Math.round(img.height * scale);
+    c.getContext("2d")!.drawImage(img, 0, 0, c.width, c.height);
+    // PNG pode ter transparência (logo): WebP mantém
+    const blob = await new Promise<Blob | null>((r) => c.toBlob(r, "image/webp", 0.85));
+    if (!blob || blob.size >= file.size) return file;
+    return new File([blob], file.name.replace(/\.\w+$/, "") + ".webp", { type: "image/webp" });
+  } catch {
+    return file;
+  } finally {
+    URL.revokeObjectURL(url);
+  }
+}
+
+export async function uploadFile(original: File): Promise<string> {
+  const file = await compressImage(original);
   const fd = new FormData();
   fd.append("file", file);
   const r = await fetch("/api/upload", { method: "POST", body: fd });

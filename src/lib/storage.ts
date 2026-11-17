@@ -96,16 +96,51 @@ const missingBackend: Backend = {
 
 const db: Backend = redis ? redisBackend(redis) : onVercel ? missingBackend : fileBackend;
 
-export function storageStatus() {
+/* ---------- chave/valor genérico (configurações e imagens) ---------- */
+const kvFile = (key: string) => path.join(DATA, "kv", `${key.replace(/[^a-zA-Z0-9_.-]/g, "_")}.json`);
+
+export async function kvGet<T>(key: string): Promise<T | null> {
+  if (redis) return (await redis.get<T>(`kv:${key}`)) ?? null;
+  if (onVercel) throw new Error(STORAGE_MISSING);
+  try {
+    return JSON.parse(await fs.readFile(kvFile(key), "utf8"));
+  } catch {
+    return null;
+  }
+}
+
+export async function kvSet(key: string, value: unknown): Promise<void> {
+  if (redis) {
+    await redis.set(`kv:${key}`, value);
+    return;
+  }
+  if (onVercel) throw new Error(STORAGE_MISSING);
+  await fs.mkdir(path.join(DATA, "kv"), { recursive: true });
+  await fs.writeFile(kvFile(key), JSON.stringify(value));
+}
+
+/* ---------- configurações do site (chave da IA etc.) ---------- */
+export interface Settings {
+  geminiKey?: string;
+  geminiModel?: string;
+  anthropicKey?: string;
+  provider?: "gemini" | "anthropic";
+}
+export const getSettings = async () => (await kvGet<Settings>("settings")) ?? {};
+export const saveSettings = (s: Settings) => kvSet("settings", s);
+
+export async function storageStatus() {
+  const s = await getSettings().catch(() => ({}) as Settings);
   return {
     storage: redis ? "redis" : onVercel ? "ausente" : "arquivos",
-    images: findEnv(["BLOB_READ_WRITE_TOKEN"]) ? "blob" : onVercel ? "ausente" : "arquivos",
-    ai: !!(process.env.ANTHROPIC_API_KEY || process.env.ANTHROPIC_AUTH_TOKEN),
+    images: findEnv(["BLOB_READ_WRITE_TOKEN"]) ? "blob" : redis ? "redis" : onVercel ? "ausente" : "arquivos",
+    ai: !!(s.geminiKey || s.anthropicKey || process.env.ANTHROPIC_API_KEY || process.env.GEMINI_API_KEY),
     password: !!process.env.APP_PASSWORD,
     onVercel,
   };
 }
 export const blobToken = () => findEnv(["BLOB_READ_WRITE_TOKEN"]);
+export const usingRedis = () => !!redis;
 
 const safeId = (id: string) => id.replace(/[^a-zA-Z0-9_-]/g, "");
 export const slugify = (s: string) =>

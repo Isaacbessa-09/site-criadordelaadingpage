@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowRight, ExternalLink, Globe, LayoutTemplate, Loader2, Pencil, Trash2 } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, ExternalLink, Globe, LayoutTemplate, Loader2, Pencil, Settings, Sparkles, Trash2 } from "lucide-react";
 import { TEMPLATES } from "@/lib/templates";
 import type { PageDoc } from "@/lib/types";
 
@@ -47,8 +48,6 @@ export default function Home() {
     ? [
         status.storage === "ausente" && "Banco de dados (Storage > Upstash for Redis) — sem ele não dá para criar páginas",
         status.images === "ausente" && "Imagens (Storage > Blob) — sem ele não dá para enviar fotos e logo",
-        !status.ai && "Chave da IA (variável ANTHROPIC_API_KEY)",
-        status.onVercel && !status.password && "Senha do editor (variável APP_PASSWORD) — hoje qualquer pessoa pode editar",
       ].filter(Boolean)
     : [];
 
@@ -70,7 +69,19 @@ export default function Home() {
             <p className="text-sm text-zinc-500">Templates + IA para criar landing pages</p>
           </div>
         </div>
+        <Link href="/configuracoes" className="inline-flex h-10 items-center gap-2 rounded-xl border border-zinc-200 bg-white px-4 text-sm font-medium hover:bg-zinc-50">
+          <Settings size={16} /> Configurações
+        </Link>
       </header>
+
+      {status && status.storage !== "ausente" && !status.ai && (
+        <Link href="/configuracoes" className="mb-10 flex items-center gap-3 rounded-2xl border border-indigo-200 bg-indigo-50 p-5 text-sm text-indigo-900 hover:bg-indigo-100">
+          <Sparkles size={18} className="shrink-0 text-indigo-600" />
+          <span>
+            <b>Ative a IA:</b> clique aqui e cole sua chave grátis do Google Gemini para a IA reescrever as páginas.
+          </span>
+        </Link>
+      )}
 
       {missing.length > 0 && (
         <div className="mb-10 rounded-2xl border border-amber-300 bg-amber-50 p-5 text-sm text-amber-900">

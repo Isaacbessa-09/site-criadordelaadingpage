@@ -5,12 +5,12 @@ import { FONTS } from "@/lib/fonts";
 import { ICONS, SECTION_MAP } from "@/lib/registry";
 import { uid } from "@/lib/path";
 import type { PageDoc, Section } from "@/lib/types";
+import { getSettings } from "@/lib/storage";
+import { geminiGenerate } from "@/lib/gemini";
 
 export const maxDuration = 300;
 
-let _client: Anthropic | null = null;
-const getClient = () => (_client ??= new Anthropic());
-const MODEL = "claude-opus-5-5";
+const CLAUDE_MODEL = "claude-opus-5-5";
 
 const SYSTEM = `Você é um copywriter sênior especialista em landing pages de alta conversão para negócios brasileiros (lojas, clínicas, cafeterias, clubes esportivos, prestadores de serviço).
 
@@ -26,18 +26,18 @@ Formato da resposta: responda SOMENTE com um objeto JSON válido, sem markdown, 
 
 type Img = { media_type: string; data: string };
 
-function userContent(text: string, images: Img[] = []): Anthropic.Beta.Messages.BetaContentBlockParam[] {
-  const blocks: Anthropic.Beta.Messages.BetaContentBlockParam[] = images.slice(0, 8).map((im) => ({
+type Prompt = { text: string; images: Img[] };
+const userContent = (text: string, images: Img[] = []): Prompt => ({ text, images: images.slice(0, 8) });
+
+async function askClaude(apiKey: string | undefined, p: Prompt): Promise<string> {
+  const client = new Anthropic(apiKey ? { apiKey } : {});
+  const content: Anthropic.Beta.Messages.BetaContentBlockParam[] = p.images.map((im) => ({
     type: "image",
     source: { type: "base64", media_type: im.media_type as "image/jpeg", data: im.data },
   }));
-  blocks.push({ type: "text", text });
-  return blocks;
-}
-
-async function ask(content: Anthropic.Beta.Messages.BetaContentBlockParam[]): Promise<any> {
-  const stream = getClient().beta.messages.stream({
-    model: MODEL,
+  content.push({ type: "text", text: p.text });
+  const stream = client.beta.messages.stream({
+    model: CLAUDE_MODEL,
     max_tokens: 32000,
     betas: ["server-side-fallback-2026-07-01"],
     fallbacks: "default",
@@ -48,7 +48,23 @@ async function ask(content: Anthropic.Beta.Messages.BetaContentBlockParam[]): Pr
   const msg = await stream.finalMessage();
   if (msg.stop_reason === "refusal") throw new Error("A IA recusou este pedido. Tente reformular as informações.");
   if (msg.stop_reason === "max_tokens") throw new Error("A resposta da IA ficou longa demais. Tente com menos informações.");
-  const text = msg.content.map((b) => (b.type === "text" ? b.text : "")).join("");
+  return msg.content.map((b) => (b.type === "text" ? b.text : "")).join("");
+}
+
+async function ask(p: Prompt): Promise<any> {
+  const s = await getSettings();
+  const geminiKey = s.geminiKey || process.env.GEMINI_API_KEY;
+  const anthropicKey = s.anthropicKey || process.env.ANTHROPIC_API_KEY;
+  const provider = s.provider ?? (geminiKey ? "gemini" : "anthropic");
+  let text: string;
+  if (provider === "gemini" && geminiKey) {
+    if (!s.geminiModel) throw new Error("Escolha um modelo do Gemini em Configurações.");
+    text = await geminiGenerate({ key: geminiKey, model: s.geminiModel, system: SYSTEM, text: p.text, images: p.images });
+  } else if (provider === "anthropic" && anthropicKey) {
+    text = await askClaude(anthropicKey, p);
+  } else {
+    throw new Error("Nenhuma chave de IA configurada. Abra Configurações (no topo da página inicial) e cole a chave do Gemini.");
+  }
   const start = text.indexOf("{");
   const end = text.lastIndexOf("}");
   if (start < 0 || end < 0) throw new Error("A IA não retornou JSON.");
@@ -178,13 +194,10 @@ Responda no formato: {"colors": {"bg","surface","ink","muted","primary","onPrima
 
     return Response.json({ error: "Modo inválido" }, { status: 400 });
   } catch (e) {
-    if (e instanceof Anthropic.AuthenticationError) return Response.json({ error: "Chave da API inválida." }, { status: 401 });
+    if (e instanceof Anthropic.AuthenticationError) return Response.json({ error: "Chave da Anthropic inválida. Confira em Configurações." }, { status: 401 });
     if (e instanceof Anthropic.RateLimitError) return Response.json({ error: "Limite de uso da API atingido. Tente em instantes." }, { status: 429 });
     if (e instanceof Anthropic.APIError) return Response.json({ error: `Erro da API: ${e.message}` }, { status: 502 });
-    const msg = (e as Error).message ?? "";
-    if (/api[_ ]?key|credential|auth/i.test(msg)) {
-      return Response.json({ error: "Configure ANTHROPIC_API_KEY no arquivo .env.local e reinicie o servidor." }, { status: 400 });
-    }
-    return Response.json({ error: msg }, { status: 500 });
+    if (e instanceof SyntaxError) return Response.json({ error: "A IA respondeu num formato inválido. Tente de novo." }, { status: 502 });
+    return Response.json({ error: (e as Error).message ?? "Erro na IA" }, { status: 500 });
   }
 }

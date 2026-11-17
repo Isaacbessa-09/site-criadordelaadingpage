@@ -547,6 +547,9 @@ export function AiPanel() {
 
   return (
     <div>
+      <a href="/configuracoes" target="_blank" className="mx-5 mt-4 flex items-center gap-2 rounded-lg bg-zinc-50 px-3 py-2 text-xs text-zinc-600 hover:bg-zinc-100">
+        <Sparkles size={13} /> Chave da IA (Gemini ou Claude): <span className="font-semibold text-indigo-600">Configurações</span>
+      </a>
       <Group title="1. Tudo sobre o negócio">
         <p className="-mt-2 text-xs leading-relaxed text-zinc-500">
           Cole aqui tudo o que encontrar: bio do Instagram, textos do site antigo, avaliações do Google, produtos, preços, diferenciais, endereço, horários, público… Quanto mais, melhor.
