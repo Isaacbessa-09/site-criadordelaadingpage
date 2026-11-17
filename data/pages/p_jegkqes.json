@@ -1,0 +1,514 @@
+{
+  "templateId": "esporte",
+  "brand": {
+    "name": "ARENA",
+    "logo": ""
+  },
+  "seo": {
+    "title": "Arena — Padel & Tênis",
+    "description": "Quadras, aulas e comunidade para todos os níveis."
+  },
+  "theme": {
+    "colors": {
+      "bg": "#F3F4EF",
+      "surface": "#FFFFFF",
+      "ink": "#0B1220",
+      "muted": "#556070",
+      "primary": "#0E2A52",
+      "onPrimary": "#FFFFFF",
+      "accent": "#C8F135",
+      "onAccent": "#0B1220",
+      "dark": "#0A1424",
+      "onDark": "#F3F4EF"
+    },
+    "fontHeading": "Inter Tight",
+    "fontBody": "Inter",
+    "radius": 22,
+    "headingWeight": 600,
+    "headingUppercase": false,
+    "headingTracking": -0.035
+  },
+  "sections": [
+    {
+      "id": "navbar_r338n9c",
+      "type": "navbar",
+      "props": {
+        "links": [
+          {
+            "label": "Sobre",
+            "href": "#sobre"
+          },
+          {
+            "label": "Quadras",
+            "href": "#servicos"
+          },
+          {
+            "label": "Planos",
+            "href": "#planos"
+          },
+          {
+            "label": "Contato",
+            "href": "#contato"
+          }
+        ],
+        "ctaLabel": "Reservar quadra",
+        "ctaHref": "#planos"
+      },
+      "style": {
+        "tone": "base",
+        "align": "left",
+        "padding": "sm",
+        "anim": "fade",
+        "variant": "transparent"
+      }
+    },
+    {
+      "id": "hero_c0hp26t",
+      "type": "hero",
+      "props": {
+        "eyebrow": "Centro de padel & tênis",
+        "title": "Seu jogo, seu estilo. Quadras para todos os níveis.",
+        "highlight": "seu estilo.",
+        "subtitle": "Quadras cobertas, aulas com professores certificados e uma comunidade que joga junto toda semana.",
+        "ctaLabel": "Entrar para o grupo",
+        "ctaHref": "#planos",
+        "cta2Label": "Ver quadras",
+        "cta2Href": "#servicos",
+        "image": "https://images.unsplash.com/photo-1646649853703-7645147474ba?auto=format&fit=crop&w=2200&q=80",
+        "proofValue": "1.200+",
+        "proofLabel": "jogadores ativos",
+        "avatars": [
+          {
+            "image": "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80"
+          },
+          {
+            "image": "https://images.unsplash.com/photo-1625241152315-4a698f74ceb7?auto=format&fit=crop&w=400&q=80"
+          },
+          {
+            "image": "https://images.unsplash.com/photo-1611695434369-a8f5d76ceb7b?auto=format&fit=crop&w=400&q=80"
+          },
+          {
+            "image": "https://images.unsplash.com/photo-1662850886700-4ec19bd30d11?auto=format&fit=crop&w=400&q=80"
+          }
+        ],
+        "badges": [
+          {
+            "icon": "Trophy",
+            "title": "Torneios",
+            "text": "todo mês"
+          },
+          {
+            "icon": "Clock",
+            "title": "6h às 23h",
+            "text": "aberto todos os dias"
+          }
+        ]
+      },
+      "style": {
+        "tone": "base",
+        "align": "left",
+        "padding": "lg",
+        "anim": "subir",
+        "variant": "background"
+      }
+    },
+    {
+      "id": "marquee_kxylope",
+      "type": "marquee",
+      "props": {
+        "items": [
+          {
+            "text": "Aulas para iniciantes"
+          },
+          {
+            "text": "Quadras cobertas"
+          },
+          {
+            "text": "Torneios mensais"
+          },
+          {
+            "text": "Day use"
+          },
+          {
+            "text": "Bar & lounge"
+          }
+        ]
+      },
+      "style": {
+        "tone": "accent",
+        "align": "left",
+        "padding": "sm",
+        "anim": "fade"
+      }
+    },
+    {
+      "id": "about_d23mrpf",
+      "type": "about",
+      "props": {
+        "eyebrow": "Sobre o clube",
+        "title": "Esporte e comunidade no mesmo lugar.",
+        "subtitle": "",
+        "text": "Do primeiro saque ao torneio: aqui iniciantes e profissionais encontram o seu lugar. Estrutura completa para treinar, jogar com amigos e evoluir de verdade.",
+        "bullets": [
+          {
+            "text": "6 quadras cobertas"
+          },
+          {
+            "text": "Professores certificados"
+          },
+          {
+            "text": "Aluguel de raquetes"
+          },
+          {
+            "text": "Vestiários completos"
+          }
+        ],
+        "image": "https://images.unsplash.com/photo-1770230901556-4e1c0bacfb09?auto=format&fit=crop&w=1600&q=80",
+        "image2": "https://images.unsplash.com/photo-1658723826297-fe4d1b1e6600?auto=format&fit=crop&w=900&q=80",
+        "badgeValue": "2020",
+        "badgeLabel": "fundado em",
+        "ctaLabel": "Fale com a gente",
+        "ctaHref": "#contato"
+      },
+      "style": {
+        "tone": "base",
+        "align": "left",
+        "padding": "md",
+        "anim": "subir",
+        "variant": "image-right"
+      }
+    },
+    {
+      "id": "stats_5u7nss6",
+      "type": "stats",
+      "props": {
+        "eyebrow": "",
+        "title": "",
+        "subtitle": "",
+        "items": [
+          {
+            "value": "15",
+            "suffix": "+",
+            "label": "anos de experiência"
+          },
+          {
+            "value": "32",
+            "suffix": "k",
+            "label": "aulas realizadas"
+          },
+          {
+            "value": "90",
+            "suffix": "+",
+            "label": "torneios organizados"
+          },
+          {
+            "value": "6",
+            "suffix": "",
+            "label": "quadras cobertas"
+          }
+        ]
+      },
+      "style": {
+        "tone": "surface",
+        "align": "left",
+        "padding": "sm",
+        "anim": "subir"
+      }
+    },
+    {
+      "id": "services_sw4w73m",
+      "type": "services",
+      "props": {
+        "eyebrow": "Estrutura",
+        "title": "Explore nossa estrutura",
+        "subtitle": "Tudo o que você precisa para jogar, treinar e se divertir.",
+        "items": [
+          {
+            "image": "https://images.unsplash.com/photo-1767128890583-b3f8dc30bdbc?auto=format&fit=crop&w=1000&q=80",
+            "tag": "Quadras",
+            "title": "Quadras premium",
+            "text": "Piso profissional, iluminação de LED e cobertura total."
+          },
+          {
+            "image": "https://images.unsplash.com/photo-1767128890439-1af9ca2ff1ac?auto=format&fit=crop&w=1000&q=80",
+            "tag": "Aulas",
+            "title": "Aulas e clínicas",
+            "text": "Do iniciante ao avançado, em grupo ou individual."
+          },
+          {
+            "image": "https://images.unsplash.com/photo-1657704358775-ed705c7388d2?auto=format&fit=crop&w=1000&q=80",
+            "tag": "Aluguel",
+            "title": "Equipamentos",
+            "text": "Raquetes e bolas de alta performance para alugar."
+          },
+          {
+            "image": "https://images.unsplash.com/photo-1646651105426-e8c8ee9badde?auto=format&fit=crop&w=1000&q=80",
+            "tag": "Eventos",
+            "title": "Torneios",
+            "text": "Competições amistosas e oficiais todo mês."
+          }
+        ],
+        "ctaLabel": "Reservar agora",
+        "ctaHref": "#planos"
+      },
+      "style": {
+        "tone": "base",
+        "align": "left",
+        "padding": "md",
+        "anim": "subir"
+      }
+    },
+    {
+      "id": "steps_yab4sct",
+      "type": "steps",
+      "props": {
+        "eyebrow": "Como entrar",
+        "title": "Comece a jogar em 4 passos",
+        "subtitle": "",
+        "image": "https://images.unsplash.com/photo-1767128890954-20ce481be8f0?auto=format&fit=crop&w=1200&q=80",
+        "items": [
+          {
+            "title": "Faça seu cadastro",
+            "text": "Leva menos de 1 minuto pelo WhatsApp."
+          },
+          {
+            "title": "Entre no grupo da comunidade",
+            "text": "Partidas marcadas toda semana."
+          },
+          {
+            "title": "Reserve sua primeira aula",
+            "text": "A aula experimental é por nossa conta."
+          },
+          {
+            "title": "Comece a jogar",
+            "text": "E evolua com acompanhamento."
+          }
+        ],
+        "ctaLabel": "Quero começar",
+        "ctaHref": "#contato"
+      },
+      "style": {
+        "tone": "base",
+        "align": "left",
+        "padding": "md",
+        "anim": "subir"
+      }
+    },
+    {
+      "id": "pricing_stfx4ux",
+      "type": "pricing",
+      "props": {
+        "eyebrow": "Planos",
+        "title": "Escolha o plano ideal para o seu jogo",
+        "subtitle": "Mensal, sem fidelidade. Cancele quando quiser.",
+        "items": [
+          {
+            "name": "Básico",
+            "description": "Para quem está começando",
+            "price": "R$ 189",
+            "period": "/mês",
+            "features": "4 horas de quadra\nJogos da comunidade\nAula experimental grátis\nDesconto no bar",
+            "ctaLabel": "Assinar Básico",
+            "highlight": ""
+          },
+          {
+            "name": "Premium",
+            "description": "Para quem joga toda semana",
+            "price": "R$ 349",
+            "period": "/mês",
+            "features": "Reserva com prioridade\n10 horas de quadra\n2 aulas em grupo/mês\nEventos exclusivos\nAluguel de raquete grátis",
+            "ctaLabel": "Assinar Premium",
+            "highlight": "sim"
+          },
+          {
+            "name": "Pro",
+            "description": "Para quem quer competir",
+            "price": "R$ 549",
+            "period": "/mês",
+            "features": "Quadra ilimitada*\n4 aulas individuais/mês\nTorneios inclusos\nAvaliação técnica",
+            "ctaLabel": "Assinar Pro",
+            "highlight": ""
+          }
+        ],
+        "ctaHref": "#contato"
+      },
+      "style": {
+        "tone": "accent",
+        "align": "center",
+        "padding": "md",
+        "anim": "subir"
+      }
+    },
+    {
+      "id": "testimonials_6g846c8",
+      "type": "testimonials",
+      "props": {
+        "eyebrow": "Depoimentos",
+        "title": "O que nossos membros dizem",
+        "subtitle": "",
+        "items": [
+          {
+            "quote": "Entrar para o clube foi a melhor decisão do meu ano. O ambiente é incrível e toda partida é uma diversão.",
+            "name": "Marina S.",
+            "role": "Membro há 2 anos",
+            "image": "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80"
+          },
+          {
+            "quote": "Comecei sem saber segurar a raquete. Hoje jogo torneios com os amigos que fiz aqui.",
+            "name": "Rafael T.",
+            "role": "Membro Premium",
+            "image": "https://images.unsplash.com/photo-1625241152315-4a698f74ceb7?auto=format&fit=crop&w=400&q=80"
+          },
+          {
+            "quote": "Estrutura impecável e professores que realmente se importam com sua evolução.",
+            "name": "Juliana P.",
+            "role": "Aluna",
+            "image": "https://images.unsplash.com/photo-1611695434369-a8f5d76ceb7b?auto=format&fit=crop&w=400&q=80"
+          }
+        ]
+      },
+      "style": {
+        "tone": "base",
+        "align": "left",
+        "padding": "md",
+        "anim": "subir"
+      }
+    },
+    {
+      "id": "team_nuh44jp",
+      "type": "team",
+      "props": {
+        "eyebrow": "Professores",
+        "title": "Conheça nossos treinadores",
+        "subtitle": "",
+        "items": [
+          {
+            "image": "https://images.unsplash.com/photo-1767128890439-1af9ca2ff1ac?auto=format&fit=crop&w=800&q=80",
+            "name": "Diego Martins",
+            "role": "Head coach"
+          },
+          {
+            "image": "https://images.unsplash.com/photo-1767128890954-20ce481be8f0?auto=format&fit=crop&w=800&q=80",
+            "name": "Carla Nunes",
+            "role": "Treinadora"
+          },
+          {
+            "image": "https://images.unsplash.com/photo-1646651105426-e8c8ee9badde?auto=format&fit=crop&w=800&q=80",
+            "name": "Bruno Alves",
+            "role": "Preparador físico"
+          }
+        ]
+      },
+      "style": {
+        "tone": "dark",
+        "align": "left",
+        "padding": "md",
+        "anim": "subir"
+      }
+    },
+    {
+      "id": "faq_ef4nlwe",
+      "type": "faq",
+      "props": {
+        "eyebrow": "Dúvidas",
+        "title": "Perguntas frequentes",
+        "subtitle": "",
+        "items": [
+          {
+            "q": "Preciso ter raquete?",
+            "a": "Não. Alugamos raquetes e bolas de alta performance na recepção."
+          },
+          {
+            "q": "Nunca joguei. Posso começar?",
+            "a": "Pode! A aula experimental é gratuita e temos turmas só para iniciantes."
+          },
+          {
+            "q": "Como reservo uma quadra?",
+            "a": "Pelo WhatsApp ou direto no app do clube, com até 7 dias de antecedência."
+          },
+          {
+            "q": "Tem estacionamento?",
+            "a": "Sim, estacionamento gratuito para membros e alunos."
+          }
+        ]
+      },
+      "style": {
+        "tone": "base",
+        "align": "left",
+        "padding": "md",
+        "anim": "subir"
+      }
+    },
+    {
+      "id": "cta_b8khspz",
+      "type": "cta",
+      "props": {
+        "eyebrow": "Bora jogar?",
+        "title": "Pronto para entrar em quadra com a gente?",
+        "subtitle": "Partidas amistosas, treinos e uma comunidade que parece família.",
+        "ctaLabel": "Agendar aula grátis",
+        "ctaHref": "#contato",
+        "image": "https://images.unsplash.com/photo-1759355456246-6937354a395d?auto=format&fit=crop&w=2000&q=80"
+      },
+      "style": {
+        "tone": "base",
+        "align": "left",
+        "padding": "md",
+        "anim": "subir"
+      }
+    },
+    {
+      "id": "contact_qb30fum",
+      "type": "contact",
+      "props": {
+        "eyebrow": "Contato",
+        "title": "Venha conhecer o clube",
+        "subtitle": "",
+        "address": "Av. dos Esportes, 1000 - Jardins, São Paulo - SP",
+        "phone": "(11) 99999-0000",
+        "whatsapp": "5511999990000",
+        "email": "contato@arena.com.br",
+        "instagram": "@arenaclube",
+        "hours": "Seg a Sex: 6h às 23h\nSáb e Dom: 7h às 21h",
+        "mapQuery": "Parque Ibirapuera, São Paulo"
+      },
+      "style": {
+        "tone": "surface",
+        "align": "left",
+        "padding": "md",
+        "anim": "subir"
+      }
+    },
+    {
+      "id": "footer_ooqbxrv",
+      "type": "footer",
+      "props": {
+        "text": "Padel, tênis e comunidade. Jogue mais, jogue junto.",
+        "links": [
+          {
+            "label": "Sobre",
+            "href": "#sobre"
+          },
+          {
+            "label": "Planos",
+            "href": "#planos"
+          },
+          {
+            "label": "Contato",
+            "href": "#contato"
+          }
+        ],
+        "copyright": "© 2026 Arena Clube. Todos os direitos reservados."
+      },
+      "style": {
+        "tone": "dark",
+        "align": "left",
+        "padding": "sm",
+        "anim": "fade"
+      }
+    }
+  ],
+  "id": "p_jegkqes",
+  "name": "Arena — nova página",
+  "updatedAt": "2026-11-17T22:56:48.953Z"
+}

@@ -1,0 +1,413 @@
+{
+  "templateId": "cafe",
+  "brand": {
+    "name": "Grão & Co.",
+    "logo": ""
+  },
+  "seo": {
+    "title": "Grão & Co. — Cafeteria",
+    "description": "Cafés especiais, doces artesanais e um cantinho para ficar."
+  },
+  "theme": {
+    "colors": {
+      "bg": "#FBF6EF",
+      "surface": "#F3E9DC",
+      "ink": "#2A1A12",
+      "muted": "#6E5A4D",
+      "primary": "#3B2418",
+      "onPrimary": "#FBF6EF",
+      "accent": "#C8642B",
+      "onAccent": "#FFFFFF",
+      "dark": "#24150E",
+      "onDark": "#FBF6EF"
+    },
+    "fontHeading": "Fraunces",
+    "fontBody": "DM Sans",
+    "radius": 26,
+    "headingWeight": 600,
+    "headingUppercase": false,
+    "headingTracking": -0.025
+  },
+  "sections": [
+    {
+      "id": "navbar_kphj2wq",
+      "type": "navbar",
+      "props": {
+        "links": [
+          {
+            "label": "Cardápio",
+            "href": "#cardapio"
+          },
+          {
+            "label": "Nossa história",
+            "href": "#sobre"
+          },
+          {
+            "label": "Depoimentos",
+            "href": "#depoimentos"
+          },
+          {
+            "label": "Onde estamos",
+            "href": "#contato"
+          }
+        ],
+        "ctaLabel": "Pedir agora",
+        "ctaHref": "#contato"
+      },
+      "style": {
+        "tone": "base",
+        "align": "left",
+        "padding": "sm",
+        "anim": "fade",
+        "variant": "pill"
+      }
+    },
+    {
+      "id": "hero_hwvi8bg",
+      "type": "hero",
+      "props": {
+        "eyebrow": "Torra própria, feito com carinho",
+        "title": "O café que faz o seu dia começar melhor.",
+        "highlight": "melhor.",
+        "subtitle": "Grãos especiais torrados na casa, doces artesanais saindo do forno e aquele cantinho perfeito para ficar.",
+        "ctaLabel": "Ver cardápio",
+        "ctaHref": "#cardapio",
+        "cta2Label": "Como chegar",
+        "cta2Href": "#contato",
+        "image": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=1400&q=80",
+        "proofValue": "4,9 ★",
+        "proofLabel": "+2.300 avaliações no Google",
+        "avatars": [
+          {
+            "image": "https://images.unsplash.com/photo-1611695434369-a8f5d76ceb7b?auto=format&fit=crop&w=400&q=80"
+          },
+          {
+            "image": "https://images.unsplash.com/photo-1662850886700-4ec19bd30d11?auto=format&fit=crop&w=400&q=80"
+          },
+          {
+            "image": "https://images.unsplash.com/photo-1757744705465-ea08b0ddc38a?auto=format&fit=crop&w=400&q=80"
+          }
+        ],
+        "badges": [
+          {
+            "icon": "Coffee",
+            "title": "100% arábica",
+            "text": "grãos especiais"
+          },
+          {
+            "icon": "Truck",
+            "title": "Delivery",
+            "text": "em até 30 min"
+          }
+        ]
+      },
+      "style": {
+        "tone": "base",
+        "align": "left",
+        "padding": "lg",
+        "anim": "subir",
+        "variant": "split"
+      }
+    },
+    {
+      "id": "marquee_6ahwtsk",
+      "type": "marquee",
+      "props": {
+        "items": [
+          {
+            "text": "Espresso"
+          },
+          {
+            "text": "Cappuccino"
+          },
+          {
+            "text": "Cold brew"
+          },
+          {
+            "text": "Croissant"
+          },
+          {
+            "text": "Pão de queijo"
+          },
+          {
+            "text": "Bolo do dia"
+          }
+        ]
+      },
+      "style": {
+        "tone": "primary",
+        "align": "left",
+        "padding": "sm",
+        "anim": "fade"
+      }
+    },
+    {
+      "id": "features_gpx8t4m",
+      "type": "features",
+      "props": {
+        "eyebrow": "Por que a gente",
+        "title": "Pequenos detalhes, grande diferença",
+        "subtitle": "",
+        "items": [
+          {
+            "icon": "Leaf",
+            "title": "Grãos especiais",
+            "text": "Direto de pequenos produtores do sul de Minas."
+          },
+          {
+            "icon": "Flame",
+            "title": "Torra própria",
+            "text": "Torramos toda semana para garantir frescor."
+          },
+          {
+            "icon": "Croissant",
+            "title": "Feito na casa",
+            "text": "Pães e doces artesanais, saindo do forno."
+          },
+          {
+            "icon": "Wifi",
+            "title": "Wi-fi e tomadas",
+            "text": "Um cantinho perfeito para trabalhar ou ler."
+          }
+        ]
+      },
+      "style": {
+        "tone": "base",
+        "align": "center",
+        "padding": "md",
+        "anim": "subir"
+      }
+    },
+    {
+      "id": "products_ga77meo",
+      "type": "products",
+      "props": {
+        "eyebrow": "Cardápio",
+        "title": "Os queridinhos da casa",
+        "subtitle": "Uma seleção dos mais pedidos. Peça no balcão ou pelo delivery.",
+        "items": [
+          {
+            "image": "https://images.unsplash.com/photo-1497636577773-f1231844b336?auto=format&fit=crop&w=800&q=80",
+            "tag": "Mais pedido",
+            "title": "Cappuccino",
+            "text": "Espresso, leite vaporizado e espuma cremosa.",
+            "price": "R$ 14"
+          },
+          {
+            "image": "https://images.unsplash.com/photo-1760662018512-e881f06d0fe0?auto=format&fit=crop&w=800&q=80",
+            "tag": "Gelado",
+            "title": "Iced caramel",
+            "text": "Cold brew, leite e calda de caramelo salgado.",
+            "price": "R$ 18"
+          },
+          {
+            "image": "https://images.unsplash.com/photo-1559001724-fbad036dbc9e?auto=format&fit=crop&w=800&q=80",
+            "tag": "",
+            "title": "Latte",
+            "text": "Suave e cremoso, com latte art.",
+            "price": "R$ 15"
+          },
+          {
+            "image": "https://images.unsplash.com/photo-1542372147193-a7aca54189cd?auto=format&fit=crop&w=800&q=80",
+            "tag": "Combo",
+            "title": "Croissant + café",
+            "text": "Croissant de manteiga e café coado.",
+            "price": "R$ 22"
+          }
+        ],
+        "ctaLabel": "Ver cardápio completo",
+        "ctaHref": "#contato"
+      },
+      "style": {
+        "tone": "surface",
+        "align": "center",
+        "padding": "md",
+        "anim": "subir"
+      }
+    },
+    {
+      "id": "about_v3z4xbf",
+      "type": "about",
+      "props": {
+        "eyebrow": "Nossa história",
+        "title": "Uma paixão que virou ponto de encontro.",
+        "subtitle": "",
+        "text": "Começamos em 2016 com uma máquina de espresso e um sonho: servir o melhor café do bairro. Hoje somos o cantinho favorito de quem ama café de verdade.",
+        "bullets": [
+          {
+            "text": "Baristas premiados"
+          },
+          {
+            "text": "Ambiente pet friendly"
+          },
+          {
+            "text": "Opções veganas"
+          },
+          {
+            "text": "Leites vegetais"
+          }
+        ],
+        "image": "https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=1200&q=80",
+        "image2": "https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?auto=format&fit=crop&w=800&q=80",
+        "badgeValue": "2016",
+        "badgeLabel": "desde",
+        "ctaLabel": "Venha nos visitar",
+        "ctaHref": "#contato"
+      },
+      "style": {
+        "tone": "base",
+        "align": "left",
+        "padding": "md",
+        "anim": "subir",
+        "variant": "image-left"
+      }
+    },
+    {
+      "id": "cta_jewlu3i",
+      "type": "cta",
+      "props": {
+        "eyebrow": "Oferta especial",
+        "title": "Ganhe 10% de desconto na primeira visita.",
+        "subtitle": "Mostre esta página no balcão e aproveite. Válido de segunda a sexta.",
+        "ctaLabel": "Quero meu desconto",
+        "ctaHref": "#contato",
+        "image": "https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=2000&q=80"
+      },
+      "style": {
+        "tone": "dark",
+        "align": "center",
+        "padding": "md",
+        "anim": "subir"
+      }
+    },
+    {
+      "id": "gallery_6y1vlcp",
+      "type": "gallery",
+      "props": {
+        "eyebrow": "Galeria",
+        "title": "Um pouco do nosso cantinho",
+        "subtitle": "",
+        "items": [
+          {
+            "image": "https://images.unsplash.com/photo-1567880905822-56f8e06fe630?auto=format&fit=crop&w=900&q=80"
+          },
+          {
+            "image": "https://images.unsplash.com/photo-1512568400610-62da28bc8a13?auto=format&fit=crop&w=900&q=80"
+          },
+          {
+            "image": "https://images.unsplash.com/photo-1769114474398-a7aef0625ef0?auto=format&fit=crop&w=900&q=80"
+          },
+          {
+            "image": "https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=900&q=80"
+          },
+          {
+            "image": "https://images.unsplash.com/photo-1563311977-d285756282dc?auto=format&fit=crop&w=900&q=80"
+          },
+          {
+            "image": "https://images.unsplash.com/photo-1529892485617-25f63cd7b1e9?auto=format&fit=crop&w=900&q=80"
+          },
+          {
+            "image": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=900&q=80"
+          },
+          {
+            "image": "https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?auto=format&fit=crop&w=900&q=80"
+          }
+        ]
+      },
+      "style": {
+        "tone": "base",
+        "align": "center",
+        "padding": "md",
+        "anim": "subir"
+      }
+    },
+    {
+      "id": "testimonials_oo0f855",
+      "type": "testimonials",
+      "props": {
+        "eyebrow": "Depoimentos",
+        "title": "Quem prova, volta",
+        "subtitle": "",
+        "items": [
+          {
+            "quote": "O melhor cappuccino da cidade, sem exagero. E o croissant é de outro mundo.",
+            "name": "Beatriz M.",
+            "role": "Cliente fiel",
+            "image": "https://images.unsplash.com/photo-1662850886700-4ec19bd30d11?auto=format&fit=crop&w=400&q=80"
+          },
+          {
+            "quote": "Meu escritório oficial às sextas. Wi-fi ótimo, café perfeito e equipe super simpática.",
+            "name": "Lucas F.",
+            "role": "Designer",
+            "image": "https://images.unsplash.com/photo-1757744705465-ea08b0ddc38a?auto=format&fit=crop&w=400&q=80"
+          },
+          {
+            "quote": "Ambiente aconchegante e doces maravilhosos. Virou programa de família.",
+            "name": "Paula R.",
+            "role": "Cliente",
+            "image": "https://images.unsplash.com/photo-1562337404-3044c84ac061?auto=format&fit=crop&w=400&q=80"
+          }
+        ]
+      },
+      "style": {
+        "tone": "surface",
+        "align": "left",
+        "padding": "md",
+        "anim": "subir"
+      }
+    },
+    {
+      "id": "contact_vhw6kkm",
+      "type": "contact",
+      "props": {
+        "eyebrow": "Onde estamos",
+        "title": "Passa aqui pra um café",
+        "subtitle": "",
+        "address": "Rua das Flores, 245 - Vila Madalena, São Paulo - SP",
+        "phone": "(11) 98888-0000",
+        "whatsapp": "5511988880000",
+        "email": "ola@graoeco.com.br",
+        "instagram": "@graoeco",
+        "hours": "Seg a Sex: 7h às 20h\nSáb e Dom: 8h às 18h",
+        "mapQuery": "Vila Madalena, São Paulo"
+      },
+      "style": {
+        "tone": "base",
+        "align": "left",
+        "padding": "md",
+        "anim": "subir"
+      }
+    },
+    {
+      "id": "footer_da572xd",
+      "type": "footer",
+      "props": {
+        "text": "Cafés especiais, doces artesanais e um cantinho pra ficar.",
+        "links": [
+          {
+            "label": "Cardápio",
+            "href": "#cardapio"
+          },
+          {
+            "label": "História",
+            "href": "#sobre"
+          },
+          {
+            "label": "Contato",
+            "href": "#contato"
+          }
+        ],
+        "copyright": "© 2026 Grão & Co. Todos os direitos reservados."
+      },
+      "style": {
+        "tone": "dark",
+        "align": "left",
+        "padding": "sm",
+        "anim": "fade"
+      }
+    }
+  ],
+  "id": "p_33rer9f",
+  "name": "Grão — nova página",
+  "updatedAt": "2026-11-17T22:58:07.958Z"
+}

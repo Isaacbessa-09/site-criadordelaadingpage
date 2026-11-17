@@ -1,0 +1,413 @@
+{
+  "templateId": "clinica",
+  "brand": {
+    "name": "",
+    "logo": "/api/uploads/img_a28jbem.jpg"
+  },
+  "seo": {
+    "title": "Vitta ClÃ­nica â Odontologia e EstÃ©tica",
+    "description": "Atendimento humanizado com tecnologia de ponta."
+  },
+  "theme": {
+    "colors": {
+      "bg": "#FFFFFF",
+      "surface": "#EFF6F6",
+      "ink": "#0E2A33",
+      "muted": "#4E6670",
+      "primary": "#0E3B43",
+      "onPrimary": "#FFFFFF",
+      "accent": "#0B7A75",
+      "onAccent": "#FFFFFF",
+      "dark": "#0A2A30",
+      "onDark": "#F1F8F8"
+    },
+    "fontHeading": "Figtree",
+    "fontBody": "Inter",
+    "radius": 20,
+    "headingWeight": 700,
+    "headingUppercase": false,
+    "headingTracking": -0.03
+  },
+  "sections": [
+    {
+      "id": "navbar_cd0y4fg",
+      "type": "navbar",
+      "props": {
+        "links": [
+          {
+            "label": "Tratamentos",
+            "href": "#diferenciais"
+          },
+          {
+            "label": "Especialista",
+            "href": "#sobre"
+          },
+          {
+            "label": "Como funciona",
+            "href": "#como-funciona"
+          },
+          {
+            "label": "Contato",
+            "href": "#contato"
+          }
+        ],
+        "ctaLabel": "Agendar consulta",
+        "ctaHref": "#contato"
+      },
+      "style": {
+        "tone": "base",
+        "align": "left",
+        "padding": "sm",
+        "anim": "fade",
+        "variant": "solid"
+      }
+    },
+    {
+      "id": "hero_354mo4b",
+      "type": "hero",
+      "props": {
+        "eyebrow": "Agenda aberta esta semana",
+        "title": "Seu sorriso em boas mãos, com cuidado de verdade.",
+        "highlight": "cuidado de verdade.",
+        "subtitle": "Odontologia completa com tecnologia de ponta e um atendimento humanizado, do primeiro contato ao pÃ³s-tratamento.",
+        "ctaLabel": "Agendar avaliaÃ§Ã£o",
+        "ctaHref": "#contato",
+        "cta2Label": "Ver tratamentos",
+        "cta2Href": "#diferenciais",
+        "image": "https://images.unsplash.com/photo-1777331903190-341a3dd0441b?auto=format&fit=crop&w=1400&q=80",
+        "proofValue": "+5.000",
+        "proofLabel": "pacientes atendidos",
+        "avatars": [
+          {
+            "image": "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80"
+          },
+          {
+            "image": "https://images.unsplash.com/photo-1625241152315-4a698f74ceb7?auto=format&fit=crop&w=400&q=80"
+          },
+          {
+            "image": "https://images.unsplash.com/photo-1611695434369-a8f5d76ceb7b?auto=format&fit=crop&w=400&q=80"
+          }
+        ],
+        "badges": [
+          {
+            "icon": "ShieldCheck",
+            "title": "CRO ativo",
+            "text": "profissionais registrados"
+          },
+          {
+            "icon": "Star",
+            "title": "5,0 no Google",
+            "text": "+800 avaliaÃ§Ãµes"
+          },
+          {
+            "icon": "Calendar",
+            "title": "Seg a SÃ¡b",
+            "text": "horÃ¡rios flexÃ­veis"
+          }
+        ]
+      },
+      "style": {
+        "tone": "base",
+        "align": "left",
+        "padding": "lg",
+        "anim": "subir",
+        "variant": "card"
+      }
+    },
+    {
+      "id": "stats_w24987m",
+      "type": "stats",
+      "props": {
+        "eyebrow": "",
+        "title": "",
+        "subtitle": "",
+        "items": [
+          {
+            "value": "12",
+            "suffix": "+",
+            "label": "anos de experiÃªncia"
+          },
+          {
+            "value": "5000",
+            "suffix": "+",
+            "label": "pacientes atendidos"
+          },
+          {
+            "value": "98",
+            "suffix": "%",
+            "label": "recomendam a clÃ­nica"
+          },
+          {
+            "value": "8",
+            "suffix": "",
+            "label": "especialidades"
+          }
+        ]
+      },
+      "style": {
+        "tone": "primary",
+        "align": "left",
+        "padding": "sm",
+        "anim": "subir"
+      }
+    },
+    {
+      "id": "features_3lfsu76",
+      "type": "features",
+      "props": {
+        "eyebrow": "Tratamentos",
+        "title": "Cuidado completo em um sÃ³ lugar",
+        "subtitle": "Do check-up preventivo aos tratamentos estÃ©ticos mais modernos.",
+        "items": [
+          {
+            "icon": "Smile",
+            "title": "Clareamento",
+            "text": "Dentes mais brancos com seguranÃ§a e sem sensibilidade."
+          },
+          {
+            "icon": "ShieldCheck",
+            "title": "Implantes",
+            "text": "Recupere a funÃ§Ã£o e a estÃ©tica com implantes de titÃ¢nio."
+          },
+          {
+            "icon": "Sparkles",
+            "title": "Lentes de contato",
+            "text": "Sorriso harmÃ´nico com facetas ultrafinas."
+          },
+          {
+            "icon": "HeartPulse",
+            "title": "PrevenÃ§Ã£o",
+            "text": "Limpeza, avaliaÃ§Ã£o e acompanhamento periÃ³dico."
+          },
+          {
+            "icon": "Baby",
+            "title": "Odontopediatria",
+            "text": "Atendimento lÃºdico e acolhedor para crianÃ§as."
+          },
+          {
+            "icon": "Microscope",
+            "title": "Tecnologia",
+            "text": "Escaneamento digital e radiografia de baixa dose."
+          }
+        ]
+      },
+      "style": {
+        "tone": "base",
+        "align": "center",
+        "padding": "md",
+        "anim": "subir"
+      }
+    },
+    {
+      "id": "about_fhntw27",
+      "type": "about",
+      "props": {
+        "eyebrow": "Especialista",
+        "title": "Dra. Helena Duarte",
+        "subtitle": "CirurgiÃ£-dentista Â· CRO-SP 00000",
+        "text": "Especialista em reabilitaÃ§Ã£o oral e estÃ©tica, com mais de 12 anos de experiÃªncia. Acredito que cada sorriso Ã© Ãºnico e merece um plano de tratamento pensado para vocÃª.",
+        "bullets": [
+          {
+            "text": "EspecializaÃ§Ã£o em Implantodontia"
+          },
+          {
+            "text": "Mestre em EstÃ©tica"
+          },
+          {
+            "text": "Membro da SBOE"
+          },
+          {
+            "text": "Atendimento humanizado"
+          }
+        ],
+        "image": "https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&w=1200&q=80",
+        "image2": "https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=800&q=80",
+        "badgeValue": "12+",
+        "badgeLabel": "anos",
+        "ctaLabel": "Agendar com a Dra.",
+        "ctaHref": "#contato"
+      },
+      "style": {
+        "tone": "surface",
+        "align": "left",
+        "padding": "md",
+        "anim": "subir",
+        "variant": "image-left"
+      }
+    },
+    {
+      "id": "steps_rekro6w",
+      "type": "steps",
+      "props": {
+        "eyebrow": "Como funciona",
+        "title": "Seu tratamento em 3 passos simples",
+        "subtitle": "",
+        "image": "https://images.unsplash.com/photo-1606811971618-4486d14f3f99?auto=format&fit=crop&w=1200&q=80",
+        "items": [
+          {
+            "title": "Agende sua avaliaÃ§Ã£o",
+            "text": "Pelo WhatsApp, em menos de 2 minutos."
+          },
+          {
+            "title": "Receba seu plano",
+            "text": "DiagnÃ³stico completo e orÃ§amento transparente."
+          },
+          {
+            "title": "Comece o tratamento",
+            "text": "Com acompanhamento em todas as etapas."
+          }
+        ],
+        "ctaLabel": "Agendar avaliaÃ§Ã£o",
+        "ctaHref": "#contato"
+      },
+      "style": {
+        "tone": "surface",
+        "align": "left",
+        "padding": "md",
+        "anim": "subir"
+      }
+    },
+    {
+      "id": "testimonials_jyz4029",
+      "type": "testimonials",
+      "props": {
+        "eyebrow": "Depoimentos",
+        "title": "HistÃ³rias de quem voltou a sorrir",
+        "subtitle": "",
+        "items": [
+          {
+            "quote": "Tinha muito medo de dentista e fui tratada com uma paciÃªncia enorme. Hoje sorrio sem vergonha!",
+            "name": "Fernanda L.",
+            "role": "Lentes de contato",
+            "image": "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80"
+          },
+          {
+            "quote": "Implante feito com todo o cuidado, sem dor nenhuma. Equipe nota 10.",
+            "name": "Roberto A.",
+            "role": "Implante",
+            "image": "https://images.unsplash.com/photo-1592234789031-94bf65f630ed?auto=format&fit=crop&w=400&q=80"
+          },
+          {
+            "quote": "Levo meus filhos desde pequenos. Eles amam ir Ã  clÃ­nica, acredita?",
+            "name": "Camila S.",
+            "role": "Odontopediatria",
+            "image": "https://images.unsplash.com/photo-1662850886700-4ec19bd30d11?auto=format&fit=crop&w=400&q=80"
+          }
+        ]
+      },
+      "style": {
+        "tone": "surface",
+        "align": "left",
+        "padding": "md",
+        "anim": "subir"
+      }
+    },
+    {
+      "id": "faq_9mmkrqc",
+      "type": "faq",
+      "props": {
+        "eyebrow": "DÃºvidas",
+        "title": "Perguntas frequentes",
+        "subtitle": "",
+        "items": [
+          {
+            "q": "VocÃªs aceitam convÃªnio?",
+            "a": "Atendemos particular e emitimos nota para reembolso. Consulte os convÃªnios parceiros pelo WhatsApp."
+          },
+          {
+            "q": "A primeira avaliaÃ§Ã£o Ã© paga?",
+            "a": "A avaliaÃ§Ã£o inicial inclui exame clÃ­nico completo e plano de tratamento personalizado."
+          },
+          {
+            "q": "Posso parcelar o tratamento?",
+            "a": "Sim, em atÃ© 12x no cartÃ£o ou condiÃ§Ãµes especiais no boleto."
+          },
+          {
+            "q": "O tratamento dÃ³i?",
+            "a": "Utilizamos anestesia moderna e tÃ©cnicas minimamente invasivas para o seu conforto."
+          }
+        ]
+      },
+      "style": {
+        "tone": "base",
+        "align": "left",
+        "padding": "md",
+        "anim": "subir"
+      }
+    },
+    {
+      "id": "cta_45ylmbv",
+      "type": "cta",
+      "props": {
+        "eyebrow": "Agenda aberta",
+        "title": "DÃª o primeiro passo para o sorriso que vocÃª merece.",
+        "subtitle": "Agende sua avaliaÃ§Ã£o agora e receba um plano de tratamento completo.",
+        "ctaLabel": "Agendar pelo WhatsApp",
+        "ctaHref": "#contato",
+        "image": "https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=2000&q=80"
+      },
+      "style": {
+        "tone": "dark",
+        "align": "center",
+        "padding": "md",
+        "anim": "subir"
+      }
+    },
+    {
+      "id": "contact_dd7lhxu",
+      "type": "contact",
+      "props": {
+        "eyebrow": "Contato",
+        "title": "Estamos esperando por vocÃª",
+        "subtitle": "",
+        "address": "Rua da SaÃºde, 500 - sala 12 - Moema, SÃ£o Paulo - SP",
+        "phone": "(11) 3333-0000",
+        "whatsapp": "5511977770000",
+        "email": "contato@vittaclinica.com.br",
+        "instagram": "@vittaclinica",
+        "hours": "Seg a Sex: 8h Ã s 19h\nSÃ¡b: 8h Ã s 13h",
+        "mapQuery": "Moema, SÃ£o Paulo"
+      },
+      "style": {
+        "tone": "surface",
+        "align": "left",
+        "padding": "md",
+        "anim": "subir"
+      }
+    },
+    {
+      "id": "footer_0hne5bf",
+      "type": "footer",
+      "props": {
+        "text": "Odontologia e estÃ©tica com atendimento humanizado. ResponsÃ¡vel tÃ©cnico: Dra. Helena Duarte Â· CRO-SP 00000.",
+        "links": [
+          {
+            "label": "Tratamentos",
+            "href": "#diferenciais"
+          },
+          {
+            "label": "Especialista",
+            "href": "#sobre"
+          },
+          {
+            "label": "Contato",
+            "href": "#contato"
+          }
+        ],
+        "copyright": "Â© 2026 Vitta ClÃ­nica. Todos os direitos reservados."
+      },
+      "style": {
+        "tone": "dark",
+        "align": "left",
+        "padding": "sm",
+        "anim": "fade"
+      }
+    }
+  ],
+  "id": "p_p19wdqa",
+  "name": "Vitta â nova pÃ¡gina",
+  "updatedAt": "2026-11-17T23:03:40.429Z",
+  "slug": "vitta-clinica-teste",
+  "published": false,
+  "publishedAt": "2026-11-17T23:00:07.333Z"
+}
