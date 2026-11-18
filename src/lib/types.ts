@@ -55,6 +55,7 @@ export interface Theme {
   headingTracking: number; // em, ex: -0.02
   fontScript?: string; // fonte cursiva opcional para as etiquetas (ex: Allura)
   highlightItalic?: boolean; // palavra em destaque em itálico
+  highlightScript?: boolean; // palavra em destaque na fonte cursiva
 }
 
 export interface PageDoc {

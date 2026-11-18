@@ -198,3 +198,44 @@ details.faq .faq-body { animation: heroUp 0.4s ease both; }
 
 /* Texto vazado (contorno) para faixas elegantes */
 .outline-text { color: transparent; -webkit-text-stroke: 1px var(--c-accent); }
+
+/* ---- Animações extras ---- */
+/* Título entrando palavra por palavra */
+.site .w { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: 0.1em; margin-bottom: -0.1em; }
+.site .rv .wi { display: inline-block; translate: 0 105%; transition: translate 0.9s cubic-bezier(0.22, 1, 0.36, 1); transition-delay: calc(var(--i, 0) * 60ms + 150ms); }
+.site .rv.in .wi { translate: 0 0; }
+
+/* Foto revelada com "cortina" + leve zoom ao entrar na tela */
+.site .rv .img-wrap { clip-path: inset(0 0 100% 0); transition: clip-path 1.15s cubic-bezier(0.77, 0, 0.18, 1) 0.08s; }
+.site .rv.in .img-wrap { clip-path: inset(0 0 0 0); }
+.site .rv .img-wrap > img { scale: 1.18; transition: scale 1.7s cubic-bezier(0.22, 1, 0.36, 1); }
+.site .rv.in .img-wrap > img { scale: 1; }
+.site .rounded-full.img-wrap, .site .rv .rounded-full .img-wrap { clip-path: none; }
+
+/* Brilho passando nos botões principais */
+.site .btn.bg-accent { position: relative; overflow: hidden; isolation: isolate; }
+.site .btn.bg-accent::after {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(110deg, transparent 30%, rgb(255 255 255 / 0.35) 50%, transparent 70%);
+  translate: -120% 0; transition: translate 0.8s ease;
+}
+.site .btn.bg-accent:hover::after { translate: 120% 0; }
+
+/* Destaque em letra cursiva */
+.site.hl-script .hl { font-family: var(--f-s), cursive; font-weight: 400; text-transform: none; letter-spacing: 0; font-size: 1.18em; line-height: 0.8; }
+
+@media (prefers-reduced-motion: reduce) {
+  .site .rv .wi, .site .rv .img-wrap, .site .rv .img-wrap > img { translate: none !important; clip-path: none !important; scale: 1 !important; transition: none !important; }
+}
+@media print {
+  .site .wi { translate: none !important; }
+  .site .img-wrap { clip-path: none !important; }
+  .site .img-wrap > img { scale: 1 !important; }
+}
+
+/* Cor de fundo da seção (usada nos degradês que dissolvem fotos no fundo) */
+.tone-base { --section-bg: var(--c-bg); }
+.tone-surface { --section-bg: var(--c-surface); }
+.tone-primary { --section-bg: var(--c-primary); }
+.tone-dark { --section-bg: var(--c-dark); }
+.tone-accent { --section-bg: var(--c-accent); }

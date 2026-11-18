@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useId, useState, type ReactNode } from "react";
 import { ArrowRight, Check, Mail, MapPin, Menu, MessageCircle, Phone, Plus, Quote, Star, X, Clock, AtSign, CalendarHeart } from "lucide-react";
-import { Btn, Counter, El, Icon, Img, Reveal, SectionHead, T, alignClass, highlight, justifyClass, useSection, useSite } from "./primitives";
+import { Btn, Counter, El, Icon, Img, Parallax, Reveal, SectionHead, T, alignClass, highlight, justifyClass, useSection, useSite } from "./primitives";
 import type { Props } from "@/lib/types";
 
 const C = "mx-auto w-full max-w-7xl px-5 md:px-8";
@@ -35,6 +35,35 @@ export function Seal({ text, center, className = "" }: { text: string; center?: 
       </svg>
       <div className="relative grid place-items-center">{center ?? <span className="h text-4xl">{(brand?.name || "B").trim()[0]}</span>}</div>
     </div>
+  );
+}
+
+/** Fileira de ícones com texto curto (ex: "Produtos premium", "Higiene total"). */
+function Perks({ p, center }: { p: Props; center?: boolean }) {
+  const perks: any[] = p.perks ?? [];
+  if (!perks.length) return null;
+  return (
+    <div className={`flex flex-wrap gap-x-8 gap-y-4 pt-2 ${center ? "justify-center" : ""}`}>
+      {perks.map((it, i) => (
+        <El key={i} path={`perks.${i}`} className="flex items-center gap-3">
+          <span className="grid size-10 place-items-center rounded-full border border-[color-mix(in_srgb,var(--c-accent)_55%,transparent)] text-accent">
+            <Icon name={it.icon} size={18} strokeWidth={1.4} />
+          </span>
+          <T path={`perks.${i}.title`} value={it.title} movable={false} className="max-w-[9rem] text-[11px] leading-tight font-medium tracking-[0.14em] uppercase" />
+        </El>
+      ))}
+    </div>
+  );
+}
+
+/** Frase em letra cursiva sobre a foto (ex: "Self care looks good on you"). */
+function ScriptNote({ p, className = "" }: { p: Props; className?: string }) {
+  const { editable } = useSite();
+  if (!p.scriptNote && !editable) return null;
+  return (
+    <El path="scriptNote" className={`pointer-events-none absolute z-10 -rotate-6 ${className}`}>
+      <T path="scriptNote" value={p.scriptNote} movable={false} className="script block text-[clamp(2rem,3.4vw,3.4rem)] leading-[1.05] text-white drop-shadow-[0_2px_12px_rgb(0_0_0/.25)]" />
+    </El>
   );
 }
 
@@ -152,8 +181,11 @@ export function Hero({ p }: P) {
         className="relative isolate flex min-h-[94vh] items-end overflow-hidden pt-28 pb-14 md:pb-20"
         style={{ ["--ink" as any]: "#fff", ["--muted" as any]: "rgb(255 255 255 / .78)", ["--line" as any]: "rgb(255 255 255 / .3)", color: "#fff" } as any}
       >
-        <Img path="image" src={p.image} eager className="absolute inset-0 -z-20" imgClassName="kenburns h-full w-full object-cover" />
+        <Parallax className="absolute inset-x-0 -top-[8%] -bottom-[8%] -z-20">
+          <Img path="image" src={p.image} eager className="absolute inset-0" imgClassName="kenburns h-full w-full object-cover" />
+        </Parallax>
         <div className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgb(0_0_0/.45)_0%,rgb(0_0_0/.1)_35%,color-mix(in_srgb,var(--c-dark)_88%,transparent)_100%)]" />
+        <ScriptNote p={p} className="top-[22%] right-[6%] hidden lg:block" />
         <div className={`${C} grid items-end gap-10 lg:grid-cols-[1.5fr_1fr]`}>
           <div className={`hero-in flex flex-col gap-6 ${al === "center" ? "items-center text-center lg:col-span-2" : al === "right" ? "items-end text-right lg:col-start-2" : ""}`}>
             <Proof p={p} light />
@@ -168,6 +200,7 @@ export function Hero({ p }: P) {
               <Btn labelPath="ctaLabel" label={p.ctaLabel} href={p.ctaHref} />
               <Btn labelPath="cta2Label" label={p.cta2Label} href={p.cta2Href} kind="outline" arrow={false} />
             </div>
+            <Perks p={p} center={al === "center"} />
           </div>
           {al !== "center" && al !== "right" && p.seal && (
             <El path="seal" className="hidden justify-self-end text-white/90 lg:block">
@@ -199,6 +232,7 @@ export function Hero({ p }: P) {
               <Btn labelPath="ctaLabel" label={p.ctaLabel} href={p.ctaHref} />
               <Btn labelPath="cta2Label" label={p.cta2Label} href={p.cta2Href} kind="outline" arrow={false} />
             </div>
+            <Perks p={p} center={al === "center"} />
             <div className="pt-2">
               <Proof p={p} />
             </div>
@@ -213,6 +247,7 @@ export function Hero({ p }: P) {
                 </El>
               )}
               {badges[0] && <Badge b={badges[0]} i={0} className="floaty absolute top-10 right-6" />}
+              <ScriptNote p={p} className="top-[18%] right-[6%]" />
             </div>
           )}
         </div>
@@ -235,6 +270,7 @@ export function Hero({ p }: P) {
         <Btn labelPath="ctaLabel" label={p.ctaLabel} href={p.ctaHref} />
         <Btn labelPath="cta2Label" label={p.cta2Label} href={p.cta2Href} kind="outline" arrow={false} />
       </div>
+      <Perks p={p} center={al === "center"} />
       <div className="pt-2">
         <Proof p={p} />
       </div>
@@ -406,8 +442,44 @@ function AboutArch({ p }: P) {
   );
 }
 
+function AboutFade({ p }: P) {
+  const { style } = useSection();
+  const { editable } = useSite();
+  return (
+    <div className="relative isolate overflow-hidden">
+      <div className="absolute inset-y-0 right-0 -z-10 w-full lg:w-[58%]">
+        <Parallax speed={0.06} className="absolute inset-x-0 -top-[6%] -bottom-[6%]">
+          <Img path="image" src={p.image} className="absolute inset-0" />
+        </Parallax>
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(90deg, var(--section-bg, var(--c-dark)) 0%, color-mix(in srgb, var(--section-bg, var(--c-dark)) 70%, transparent) 35%, transparent 75%), linear-gradient(0deg, color-mix(in srgb, var(--section-bg, var(--c-dark)) 85%, transparent) 0%, transparent 40%)",
+          }}
+        />
+      </div>
+      <div className={`${C} grid min-h-[560px] items-center py-6 lg:grid-cols-2`}>
+        <div className="max-w-xl">
+          <SectionHead p={p} />
+          {(p.text || editable) && (
+            <Reveal i={3}>
+              <T as="p" path="text" value={p.text} className={`mt-6 block text-lg leading-relaxed whitespace-pre-line text-muted ${alignClass(style.align)}`} />
+            </Reveal>
+          )}
+          <Reveal i={5} className={`mt-10 flex flex-wrap items-center gap-8 ${justifyClass(style.align)}`}>
+            {(p.signature || editable) && <T path="signature" value={p.signature} className="script text-5xl text-accent" />}
+            <Btn labelPath="ctaLabel" label={p.ctaLabel} href={p.ctaHref} />
+          </Reveal>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function About({ p }: P) {
-  return useSection().style.variant === "arch" ? <AboutArch p={p} /> : <AboutDefault p={p} />;
+  const v = useSection().style.variant;
+  return v === "arch" ? <AboutArch p={p} /> : v === "fade" ? <AboutFade p={p} /> : <AboutDefault p={p} />;
 }
 
 function AboutDefault({ p }: P) {
@@ -521,6 +593,36 @@ export function Services({ p }: P) {
   const items: any[] = p.items ?? [];
   const { editable } = useSite();
   const { style } = useSection();
+  if (style.variant === "side") {
+    return (
+      <div className={`${C} grid items-center gap-10 lg:grid-cols-[0.8fr_2.2fr]`}>
+        <div>
+          <SectionHead p={p} titleClass="text-4xl md:text-5xl" />
+          {(p.ctaLabel || editable) && (
+            <Reveal i={3} className="mt-8">
+              <a href={p.ctaHref || "#"} onClick={editable ? (e) => e.preventDefault() : undefined} className="group inline-flex items-center gap-4 text-xs font-semibold tracking-[0.18em] uppercase">
+                <T path="ctaLabel" value={p.ctaLabel} movable={false} />
+                <span className="h-px w-10 bg-current transition-all duration-500 group-hover:w-16" />
+              </a>
+            </Reveal>
+          )}
+        </div>
+        <div className={`grid grid-cols-2 gap-4 ${items.length >= 4 ? "lg:grid-cols-4" : "lg:grid-cols-3"}`}>
+          {items.map((it, i) => (
+            <Reveal key={i} i={i} className="group lift zoom-img relative isolate aspect-[3/4] overflow-hidden r text-white">
+              <Img path={`items.${i}.image`} src={it.image} className="absolute inset-0 -z-10" />
+              <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-t from-black/85 via-black/10 to-transparent" />
+              <div className="flex h-full flex-col items-center justify-end gap-1 p-5 text-center">
+                <T path={`items.${i}.tag`} value={it.tag} className="text-[10px] font-medium tracking-[0.2em] text-white/75 uppercase" />
+                <T as="h3" path={`items.${i}.title`} value={it.title} className="block text-sm font-semibold tracking-[0.12em] uppercase md:text-base" />
+                <span className="mt-2 h-px w-0 bg-accent transition-all duration-500 group-hover:w-12" />
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    );
+  }
   if (style.variant === "stacked") {
     return (
       <div className={C}>
@@ -858,7 +960,9 @@ export function Cta({ p }: P) {
   return (
     <div className={C}>
       <Reveal anim="zoom" className="relative isolate overflow-hidden r-lg px-6 py-20 md:px-16 md:py-28">
-        <Img path="image" src={p.image} className="absolute inset-0 -z-20" imgClassName="h-full w-full object-cover" />
+        <Parallax speed={0.1} className="absolute inset-x-0 -top-[12%] -bottom-[12%] -z-20">
+          <Img path="image" src={p.image} className="absolute inset-0" imgClassName="h-full w-full object-cover" />
+        </Parallax>
         <div className="absolute inset-0 -z-10 bg-[linear-gradient(120deg,color-mix(in_srgb,var(--c-dark)_92%,transparent),color-mix(in_srgb,var(--c-dark)_45%,transparent))]" />
         <div
           className={`flex max-w-3xl flex-col gap-6 ${style.align === "center" ? "mx-auto items-center text-center" : style.align === "right" ? "ml-auto items-end text-right" : ""}`}
@@ -975,7 +1079,64 @@ export function Footer({ p }: P) {
   );
 }
 
+/* ================= ANTES E DEPOIS ================= */
+export function BeforeAfter({ p }: P) {
+  const { editable } = useSite();
+  const { style } = useSection();
+  const [pos, setPos] = useState(50);
+  const items: any[] = p.items ?? [];
+  return (
+    <div className={`${C} grid items-center gap-12 lg:grid-cols-[1fr_1.25fr_0.6fr]`}>
+      <div>
+        <SectionHead p={p} />
+        <Reveal i={3} className={`mt-8 flex ${justifyClass(style.align)}`}>
+          <Btn labelPath="ctaLabel" label={p.ctaLabel} href={p.ctaHref} />
+        </Reveal>
+      </div>
+      <Reveal anim="zoom" className="relative">
+        <div className="relative aspect-[4/3] overflow-hidden r-lg select-none">
+          <Img path="after" src={p.after} className="absolute inset-0" />
+          <div className="absolute inset-0 overflow-hidden" style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}>
+            <Img path="before" src={p.before} className="absolute inset-0" />
+          </div>
+          <div className="pointer-events-none absolute inset-y-0 w-px bg-white/90" style={{ left: `${pos}%` }}>
+            <span className="absolute top-1/2 left-1/2 grid size-11 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white text-neutral-800 shadow-lg">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+                <path d="M9 6l-6 6 6 6M15 6l6 6-6 6" />
+              </svg>
+            </span>
+          </div>
+          <T path="beforeLabel" value={p.beforeLabel} className="absolute bottom-4 left-4 rounded-full bg-black/45 px-4 py-1.5 text-[11px] font-semibold tracking-[0.18em] text-white uppercase backdrop-blur" />
+          <T path="afterLabel" value={p.afterLabel} className="absolute right-4 bottom-4 rounded-full bg-black/45 px-4 py-1.5 text-[11px] font-semibold tracking-[0.18em] text-white uppercase backdrop-blur" />
+          {!editable && (
+            <input
+              type="range"
+              min={0}
+              max={100}
+              value={pos}
+              onChange={(e) => setPos(Number(e.target.value))}
+              aria-label="Comparar antes e depois"
+              className="absolute inset-0 h-full w-full cursor-ew-resize opacity-0"
+            />
+          )}
+        </div>
+      </Reveal>
+      <ul className="flex flex-col">
+        {items.map((it, i) => (
+          <Reveal as="li" key={i} i={i + 1} className="flex items-center gap-4 border-b border-line py-4 last:border-0">
+            <El path={`items.${i}.icon`} as="span" className="text-accent">
+              <Icon name={it.icon} size={22} strokeWidth={1.3} />
+            </El>
+            <T path={`items.${i}.title`} value={it.title} className="text-sm" />
+          </Reveal>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 export const SECTION_COMPONENTS: Record<string, (props: P) => ReactNode> = {
+  beforeafter: BeforeAfter,
   navbar: Navbar,
   hero: Hero,
   marquee: Marquee,

@@ -541,10 +541,19 @@ export function DesignPanel() {
             ))}
           </select>
         </div>
-        <label className="flex cursor-pointer items-center justify-between text-sm">
-          <span className="font-medium text-zinc-700">Palavra em destaque em itálico</span>
-          <input type="checkbox" checked={!!t.highlightItalic} onChange={(e) => actions.theme({ highlightItalic: e.target.checked })} className="size-4 accent-indigo-600" />
-        </label>
+        <div>
+          <Label>Estilo do trecho em destaque no título</Label>
+          <Segmented
+            value={t.highlightScript ? "script" : t.highlightItalic ? "italic" : "cor"}
+            onChange={(v) => actions.theme({ highlightItalic: v === "italic", highlightScript: v === "script" })}
+            options={[
+              { value: "cor", label: "Só cor" },
+              { value: "italic", label: "Itálico" },
+              { value: "script", label: "Cursiva" },
+            ]}
+          />
+          {t.highlightScript && !t.fontScript && <p className="mt-1.5 text-xs text-amber-600">Escolha uma fonte cursiva acima.</p>}
+        </div>
         <label className="flex cursor-pointer items-center justify-between text-sm">
           <span className="font-medium text-zinc-700">Títulos em MAIÚSCULAS</span>
           <input type="checkbox" checked={t.headingUppercase} onChange={(e) => actions.theme({ headingUppercase: e.target.checked })} className="size-4 accent-indigo-600" />

@@ -95,6 +95,11 @@ export const SECTIONS: SectionDef[] = [
       { key: "cta2Href", label: "Link do botão secundário", type: "url" },
       { key: "image", label: "Imagem principal", type: "image" },
       { key: "seal", label: "Selo girando (texto em círculo)", type: "text" },
+      { key: "scriptNote", label: "Frase cursiva sobre a foto", type: "text" },
+      { key: "perks", label: "Ícones abaixo do botão", type: "list", itemLabel: "Ícone", fields: [
+        { key: "icon", label: "Ícone", type: "icon" },
+        { key: "title", label: "Texto", type: "text" },
+      ] },
       { key: "proofValue", label: "Prova social (número)", type: "text" },
       { key: "proofLabel", label: "Prova social (texto)", type: "text" },
       { key: "avatars", label: "Fotos da prova social", type: "list", itemLabel: "Foto", fields: [
@@ -175,6 +180,7 @@ export const SECTIONS: SectionDef[] = [
       { value: "image-right", label: "Imagem à direita" },
       { value: "image-left", label: "Imagem à esquerda" },
       { value: "arch", label: "Foto em arco + assinatura" },
+      { value: "fade", label: "Foto grande se dissolvendo no fundo" },
     ],
     fields: [
       ...head,
@@ -241,6 +247,7 @@ export const SECTIONS: SectionDef[] = [
     variants: [
       { value: "overlay", label: "Texto sobre a foto" },
       { value: "stacked", label: "Foto em cima, texto embaixo" },
+      { value: "side", label: "Título na lateral + cards altos" },
     ],
     fields: [
       ...head,
@@ -316,6 +323,33 @@ export const SECTIONS: SectionDef[] = [
           { title: "Aproveite", text: "Viva a experiência completa." },
         ],
         ctaLabel: "Começar agora", ctaHref: "#contato",
+      },
+      style: st({ tone: "surface" }),
+    },
+  },
+  {
+    type: "beforeafter",
+    label: "Antes e depois",
+    description: "Comparação de resultado com barra de arrastar e lista de benefícios.",
+    fields: [
+      ...head,
+      { key: "before", label: "Foto ANTES", type: "image" },
+      { key: "after", label: "Foto DEPOIS", type: "image" },
+      { key: "beforeLabel", label: "Etiqueta antes", type: "text" },
+      { key: "afterLabel", label: "Etiqueta depois", type: "text" },
+      { key: "items", label: "Benefícios", type: "list", itemLabel: "Benefício", fields: [
+        { key: "icon", label: "Ícone", type: "icon" },
+        { key: "title", label: "Texto", type: "text" },
+      ] },
+      { key: "ctaLabel", label: "Botão", type: "text" },
+      { key: "ctaHref", label: "Link do botão", type: "url" },
+    ],
+    defaults: {
+      props: {
+        eyebrow: "Resultados reais", title: "Resultados que você sente", highlight: "", subtitle: "Veja a diferença dos nossos tratamentos.",
+        before: GENERIC[1], after: GENERIC[1], beforeLabel: "Antes", afterLabel: "Depois",
+        items: [{ icon: "Sparkles", title: "Pele mais limpa" }, { icon: "Sun", title: "Tom mais uniforme" }, { icon: "Gem", title: "Brilho saudável" }],
+        ctaLabel: "Ver mais resultados", ctaHref: "#contato",
       },
       style: st({ tone: "surface" }),
     },

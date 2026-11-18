@@ -535,6 +535,287 @@ const beleza = (): Tpl => ({
   ],
 });
 
+/* ============================================================
+   5) LUXE NAILS — estúdio de unhas (escuro + rosé)
+   ============================================================ */
+const unhas = (): Tpl => ({
+  templateId: "unhas",
+  brand: { name: "Luxe Nail Studio", logo: "" },
+  seo: { title: "Luxe Nail Studio — Unhas de luxo", description: "Manicure, alongamento em gel e nail art em um ambiente exclusivo." },
+  theme: {
+    colors: {
+      bg: "#0F0B0B", surface: "#1B1414", ink: "#F7ECE8", muted: "#C2ABA5",
+      primary: "#2B1E1E", onPrimary: "#F7ECE8", accent: "#D9A29B", onAccent: "#1A1010",
+      dark: "#080606", onDark: "#F7ECE8",
+    },
+    fontHeading: "Bodoni Moda", fontBody: "Jost", fontScript: "Great Vibes", highlightScript: true,
+    radius: 10, headingWeight: 500, headingUppercase: true, headingTracking: 0.01,
+  },
+  sections: [
+    sec("navbar", {
+      links: [
+        { label: "Sobre", href: "#sobre" }, { label: "Serviços", href: "#servicos" },
+        { label: "Valores", href: "#cardapio" }, { label: "Galeria", href: "#galeria" },
+      ],
+      ctaLabel: "Agendar horário", ctaHref: "#como-funciona",
+    }, { variant: "transparent" }),
+    sec("hero", {
+      eyebrow: "Elegância na ponta dos dedos",
+      title: "Unhas que empoderam.",
+      highlight: "empoderam.",
+      subtitle: "Manicure, alongamento e nail art com acabamento impecável, em um espaço pensado para você relaxar.",
+      ctaLabel: "Agendar meu horário", ctaHref: "#como-funciona",
+      cta2Label: "", cta2Href: "",
+      image: img("1610992015762-45dca7fa3a85", 1800),
+      seal: "experiência de luxo • luxe nail studio • ",
+      proofValue: "", proofLabel: "", avatars: [],
+      perks: [
+        { icon: "Gem", title: "Produtos premium" },
+        { icon: "ShieldCheck", title: "Higiene e segurança" },
+        { icon: "Clock", title: "Profissionais experientes" },
+      ],
+      badges: [],
+    }, { variant: "background", padding: "lg" }),
+    sec("about", {
+      eyebrow: "Bem-vinda ao Luxe",
+      title: "Beleza. Cuidado. Confiança.",
+      highlight: "Confiança.",
+      subtitle: "",
+      text: "No Luxe Nail Studio cada detalhe importa. Nossa missão é entregar unhas impecáveis em um ambiente relaxante e sofisticado, com materiais esterilizados e produtos de primeira linha.",
+      bullets: [],
+      image: img("1770980397103-c2522562e16f", 1800), image2: "",
+      watermark: "", signature: "se cuide ♡",
+      ctaLabel: "Conhecer o espaço", ctaHref: "#galeria",
+    }, { variant: "fade", tone: "dark", padding: "lg" }),
+    sec("services", {
+      eyebrow: "Nossos serviços",
+      title: "Serviços exclusivos",
+      highlight: "exclusivos",
+      subtitle: "",
+      items: [
+        { image: img("1612887390768-fb02affea7a6", 800), icon: "", tag: "Clássica", title: "Manicure", text: "" },
+        { image: img("1772322586785-3a34772cbc61", 800), icon: "", tag: "Em gel", title: "Alongamento", text: "" },
+        { image: img("1769687209448-025548dfca8b", 800), icon: "", tag: "Nail", title: "Art", text: "" },
+        { image: img("1604654894610-df63bc536371", 800), icon: "", tag: "Premium", title: "Decoradas", text: "" },
+      ],
+      ctaLabel: "Ver todos", ctaHref: "#cardapio",
+    }, { variant: "side", tone: "surface" }),
+    sec("marquee", {
+      items: [{ text: "Manicure" }, { text: "Alongamento em gel" }, { text: "Nail art" }, { text: "Pedicure" }, { text: "Spa dos pés" }],
+    }, { variant: "elegant", tone: "base", anim: "fade" }),
+    sec("products", {
+      eyebrow: "Valores",
+      title: "Escolha o seu cuidado",
+      highlight: "cuidado",
+      subtitle: "Preços de referência. Consulte promoções e pacotes pelo WhatsApp.",
+      items: [
+        { image: img("1643648854897-7b5845b4c04c", 700), tag: "", title: "Manicure", text: "Cutilagem, esmaltação e hidratação.", price: "R$ 45" },
+        { image: img("1772322586754-34c9e6f5be6f", 700), tag: "Mais pedido", title: "Alongamento em gel", text: "Formato e tamanho sob medida.", price: "R$ 180" },
+        { image: img("1777287216954-2b4b22bb6bf2", 700), tag: "", title: "Nail art", text: "Desenhos, pedrarias e efeitos.", price: "+ R$ 25" },
+        { image: img("1633955726992-2b7c0d2d2a69", 700), tag: "", title: "Blindagem", text: "Proteção e brilho que duram semanas.", price: "R$ 90" },
+      ],
+      ctaLabel: "Agendar agora", ctaHref: "#como-funciona",
+    }, { align: "center" }),
+    sec("features", {
+      eyebrow: "Por que o Luxe",
+      title: "Cada detalhe pensado para você",
+      highlight: "para você",
+      subtitle: "",
+      items: [
+        { icon: "ShieldCheck", title: "Materiais esterilizados", text: "Autoclave e kits individuais." },
+        { icon: "Gem", title: "Produtos premium", text: "Marcas importadas e de longa duração." },
+        { icon: "Armchair", title: "Ambiente relaxante", text: "Poltronas confortáveis e café." },
+        { icon: "BadgeCheck", title: "Equipe certificada", text: "Técnicas sempre atualizadas." },
+      ],
+    }, { variant: "linhas", tone: "dark", align: "center" }),
+    sec("gallery", {
+      eyebrow: "Galeria",
+      title: "Trabalhos recentes",
+      highlight: "recentes",
+      items: [
+        img("1610992015732-2449b76344bc", 800), img("1772322586634-9867476143b9", 800), img("1604654894611-6973b376cbde", 800),
+        img("1698308233758-d55c98fd7444", 800), img("1650043155925-decbf940020b", 800), img("1612887390768-fb02affea7a6", 800),
+        img("1522337660859-02fbefca4702", 800), img("1735264143075-9694eb02ad86", 800),
+      ].map((image) => ({ image })),
+    }, { align: "center" }),
+    sec("testimonials", {
+      eyebrow: "Depoimentos",
+      title: "Quem faz, volta",
+      highlight: "volta",
+      items: [
+        { quote: "Minhas unhas nunca duraram tanto! Atendimento impecável e o espaço é lindo demais.", name: "Larissa P.", role: "Alongamento em gel", image: PEOPLE[0] },
+        { quote: "Capricho em cada detalhe. A nail art ficou exatamente como eu imaginei.", name: "Bianca M.", role: "Nail art", image: PEOPLE[3] },
+        { quote: "Ambiente super limpo e aconchegante. Virou meu momento favorito da semana.", name: "Renata L.", role: "Manicure", image: PEOPLE[5] },
+      ],
+    }, { tone: "surface" }),
+    sec("steps", {
+      eyebrow: "Agende já",
+      title: "Seu momento de luxo começa aqui.",
+      highlight: "começa aqui.",
+      subtitle: "Atendimento somente com hora marcada, para você não esperar.",
+      image: "", seal: "agende já • luxe nail studio • ",
+      items: [
+        { title: "Escolha o serviço", text: "Manicure, alongamento, nail art ou pedicure." },
+        { title: "Escolha o dia e o horário", text: "Pelo WhatsApp, em menos de 1 minuto." },
+        { title: "Chegue e relaxe", text: "A gente cuida de todo o resto." },
+      ],
+      ctaLabel: "Agendar", ctaHref: "#contato",
+    }, { variant: "booking", tone: "base" }),
+    sec("cta", {
+      eyebrow: "Pronta para brilhar?",
+      title: "Agende seu horário hoje",
+      subtitle: "Entre no luxo. Saia se sentindo linda.",
+      ctaLabel: "Agendar agora", ctaHref: "#contato",
+      image: img("1619352519321-170fb0e7f973", 2000),
+    }, { tone: "base", align: "left" }),
+    sec("contact", {
+      eyebrow: "Contato", title: "Venha nos visitar",
+      address: "Rua Oscar Freire, 900 - Jardins, São Paulo - SP", phone: "(11) 98888-4321", whatsapp: "5511988884321",
+      email: "contato@luxenail.com.br", instagram: "@luxenailstudio", hours: "Ter a Sáb: 9h às 20h",
+      mapQuery: "Rua Oscar Freire, São Paulo",
+    }, { tone: "surface" }),
+    sec("footer", {
+      text: "Unhas de luxo em um espaço feito para você.",
+      links: [{ label: "Serviços", href: "#servicos" }, { label: "Valores", href: "#cardapio" }, { label: "Contato", href: "#contato" }],
+      copyright: "© 2026 Luxe Nail Studio. Todos os direitos reservados.",
+    }, { tone: "dark" }),
+  ],
+});
+
+/* ============================================================
+   6) ROSÉ SPA — spa, estética facial e corporal (rosa claro)
+   ============================================================ */
+const spa = (): Tpl => ({
+  templateId: "spa",
+  brand: { name: "Rosé Spa", logo: "" },
+  seo: { title: "Rosé Spa — Estética e bem-estar", description: "Tratamentos faciais, massagens e cuidados para a sua pele e o seu bem-estar." },
+  theme: {
+    colors: {
+      bg: "#FCF6F3", surface: "#F6E7E2", ink: "#3A2420", muted: "#806059",
+      primary: "#6E3F3A", onPrimary: "#FFFFFF", accent: "#A85D54", onAccent: "#FFFFFF",
+      dark: "#3A2420", onDark: "#FCF6F3",
+    },
+    fontHeading: "Playfair Display", fontBody: "DM Sans", fontScript: "Parisienne",
+    radius: 16, headingWeight: 500, headingUppercase: false, headingTracking: -0.02,
+  },
+  sections: [
+    sec("navbar", {
+      links: [
+        { label: "Tratamentos", href: "#servicos" }, { label: "Resultados", href: "#resultados" },
+        { label: "Depoimentos", href: "#depoimentos" }, { label: "Contato", href: "#contato" },
+      ],
+      ctaLabel: "Agendar", ctaHref: "#contato",
+    }, { variant: "solid" }),
+    sec("hero", {
+      eyebrow: "Beleza natural · Equilíbrio",
+      title: "Relaxe, renove e brilhe.",
+      highlight: "",
+      subtitle: "Tratamentos de spa pensados para renovar a sua pele, devolver o seu brilho e realçar a sua beleza natural.",
+      ctaLabel: "Agendar meu dia de spa", ctaHref: "#contato",
+      cta2Label: "", cta2Href: "",
+      image: img("1728727217834-b190862837a3", 1600),
+      seal: "", scriptNote: "Se cuidar fica lindo em você",
+      proofValue: "", proofLabel: "", avatars: [],
+      perks: [
+        { icon: "Leaf", title: "Produtos orgânicos" },
+        { icon: "Flower2", title: "Terapeutas experientes" },
+        { icon: "Sparkles", title: "Cuidado personalizado" },
+      ],
+      badges: [],
+    }, { variant: "editorial", padding: "lg" }),
+    sec("services", {
+      eyebrow: "Nossos tratamentos",
+      title: "Beleza e bem-estar",
+      highlight: "",
+      subtitle: "De limpezas de pele revigorantes a massagens relaxantes: tratamentos para o seu bem-estar completo.",
+      items: [
+        { image: img("1570172619644-dfd03ed5d881", 800), icon: "", tag: "", title: "Tratamento facial", text: "Limpeza · Hidratação · Brilho" },
+        { image: img("1741522509438-a120c0bb5e88", 800), icon: "", tag: "", title: "Massagem relaxante", text: "Relaxa · Restaura · Renova" },
+        { image: img("1761718209835-c8586b7dcac0", 800), icon: "", tag: "", title: "Rejuvenescimento", text: "Firmeza · Viço · Renovação" },
+        { image: img("1600334089648-b0d9d3028eb2", 800), icon: "", tag: "", title: "Pacotes de spa", text: "Spa · Beleza · Autocuidado" },
+      ],
+      ctaLabel: "Saiba mais", ctaHref: "#contato",
+    }, { variant: "stacked" }),
+    sec("beforeafter", {
+      eyebrow: "Resultados reais",
+      title: "Um brilho que você sente",
+      highlight: "",
+      subtitle: "Pele mais saudável, uniforme e luminosa com protocolos profissionais pensados para resultados duradouros.",
+      before: img("1713207524097-596f3c17afc3", 1200), after: img("1675773051474-55c4b7d2cf53", 1200),
+      beforeLabel: "Antes", afterLabel: "Depois",
+      items: [
+        { icon: "Sparkles", title: "Pele mais limpa" },
+        { icon: "Sun", title: "Tom mais uniforme" },
+        { icon: "Feather", title: "Textura mais suave" },
+        { icon: "Gem", title: "Brilho saudável" },
+      ],
+      ctaLabel: "Ver mais transformações", ctaHref: "#contato",
+    }, { tone: "surface" }),
+    sec("marquee", {
+      items: [{ text: "Limpeza de pele" }, { text: "Massagem" }, { text: "Drenagem" }, { text: "Peeling" }, { text: "Day spa" }],
+    }, { variant: "elegant", tone: "base", anim: "fade" }),
+    sec("testimonials", {
+      eyebrow: "Depoimentos",
+      title: "Histórias reais, brilho real",
+      highlight: "",
+      items: [
+        { quote: "O tratamento facial foi incrível! Minha pele ficou leve e luminosa. Melhor experiência de spa.", name: "Mariana C.", role: "Cliente verificada", image: PEOPLE[0] },
+        { quote: "Profissionais e super relaxante. Saí renovada, já marquei a próxima sessão!", name: "Sofia L.", role: "Cliente verificada", image: PEOPLE[2] },
+        { quote: "Espaço lindo, equipe maravilhosa e resultado visível. Recomendo demais!", name: "Olívia B.", role: "Cliente verificada", image: PEOPLE[3] },
+      ],
+    }),
+    sec("steps", {
+      eyebrow: "Como funciona",
+      title: "Seu dia de spa em 3 passos",
+      highlight: "",
+      subtitle: "",
+      image: img("1706795033849-7ca391f007c5", 1200), seal: "",
+      items: [
+        { title: "Agende pelo WhatsApp", text: "Escolha o tratamento e o melhor horário." },
+        { title: "Avaliação personalizada", text: "Entendemos sua pele e seus objetivos." },
+        { title: "Relaxe e aproveite", text: "Saia renovada, com orientações para casa." },
+      ],
+      ctaLabel: "Agendar agora", ctaHref: "#contato",
+    }, { variant: "image", tone: "surface" }),
+    sec("faq", {
+      eyebrow: "Dúvidas",
+      title: "Perguntas frequentes",
+      items: [
+        { q: "Preciso fazer avaliação antes?", a: "Para tratamentos faciais fazemos uma avaliação rápida no início da sessão, sem custo extra." },
+        { q: "Quanto tempo dura cada tratamento?", a: "Entre 50 e 90 minutos, dependendo do protocolo." },
+        { q: "Vocês vendem vale-presente?", a: "Sim! Temos vales e pacotes especiais, ótimos para presentear." },
+        { q: "Quais as formas de pagamento?", a: "Pix, cartão de crédito em até 6x e débito." },
+      ],
+    }),
+    sec("cta", {
+      eyebrow: "Seu momento de brilhar",
+      title: "Se cuidar é uma escolha linda",
+      subtitle: "Agende hoje e descubra uma versão mais radiante e confiante de você.",
+      ctaLabel: "Agendar meu horário", ctaHref: "#contato",
+      image: img("1706795033849-7ca391f007c5", 2000),
+    }, { tone: "base", align: "left" }),
+    sec("features", {
+      eyebrow: "", title: "", subtitle: "",
+      items: [
+        { icon: "Calendar", title: "Agendamento fácil", text: "" },
+        { icon: "Leaf", title: "Produtos premium", text: "" },
+        { icon: "Heart", title: "Profissionais de confiança", text: "" },
+      ],
+    }, { variant: "bar", tone: "surface", padding: "sm", anim: "fade" }),
+    sec("contact", {
+      eyebrow: "Contato", title: "Venha relaxar com a gente",
+      address: "Av. das Flores, 300 - Moema, São Paulo - SP", phone: "(11) 97777-1212", whatsapp: "5511977771212",
+      email: "ola@rosespa.com.br", instagram: "@rosespa", hours: "Seg a Sex: 9h às 20h\nSáb: 9h às 17h",
+      mapQuery: "Moema, São Paulo",
+    }),
+    sec("footer", {
+      text: "Estética e bem-estar com carinho em cada detalhe.",
+      links: [{ label: "Tratamentos", href: "#servicos" }, { label: "Resultados", href: "#resultados" }, { label: "Contato", href: "#contato" }],
+      copyright: "© 2026 Rosé Spa. Todos os direitos reservados.",
+    }),
+  ],
+});
+
 export const TEMPLATES: (TemplateMeta & { build: () => Tpl })[] = [
   {
     id: "esporte", name: "Arena", niche: "Esportes: padel, tênis, beach tennis, academias",
@@ -555,5 +836,15 @@ export const TEMPLATES: (TemplateMeta & { build: () => Tpl })[] = [
     id: "beleza", name: "Maison Belle", niche: "Beleza: lash, sobrancelhas, unhas, estética, salão",
     description: "Elegante e sofisticado: hero editorial com selo girando, foto em arco, assinatura e agendamento.",
     cover: img("1589710751893-f9a6770ad71b", 900), build: beleza,
+  },
+  {
+    id: "unhas", name: "Luxe Nails", niche: "Unhas: manicure, alongamento, nail art",
+    description: "Luxo escuro com rosé: palavra em letra cursiva, selo girando, foto dissolvendo e tabela de valores.",
+    cover: img("1610992015762-45dca7fa3a85", 900), build: unhas,
+  },
+  {
+    id: "spa", name: "Rosé Spa", niche: "Spa, estética facial e corporal, massagem",
+    description: "Rosa claro e delicado: frase cursiva na foto, tratamentos, antes e depois que você arrasta.",
+    cover: img("1728727217834-b190862837a3", 900), build: spa,
   },
 ];

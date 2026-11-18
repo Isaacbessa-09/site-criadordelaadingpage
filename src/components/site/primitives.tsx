@@ -140,7 +140,7 @@ export function Img({
   const { style, ...elProps } = el.props as { style?: CSSProperties };
   return (
     <div
-      className={`${className} ${el.cls}`}
+      className={`img-wrap ${className} ${el.cls}`}
       style={style}
       {...elProps}
       data-img={editable ? "1" : undefined}
@@ -328,6 +328,7 @@ export function SectionHead({
 }) {
   const { editable } = useSite();
   const { style } = useSection();
+  const renderTitle = (t: string) => (editable || style.anim === "nenhuma" ? highlight(t, p.highlight) : splitWords(t, p.highlight));
   const al = style.align === "center" ? "text-center items-center mx-auto" : style.align === "right" ? "text-right items-end ml-auto" : "text-left items-start";
   if (!editable && !p.eyebrow && !p.title && !p.subtitle) return null;
   return (
@@ -341,7 +342,7 @@ export function SectionHead({
         </Reveal>
       )}
       <Reveal i={1}>
-        <T as="h2" path="title" value={p.title} render={(t) => highlight(t, p.highlight)} className={`h block ${titleClass}`} />
+        <T as="h2" path="title" value={p.title} render={renderTitle} className={`h block ${titleClass}`} />
       </Reveal>
       {(p.subtitle || editable) && (
         <Reveal i={2}>
@@ -362,6 +363,66 @@ export function highlight(text: string, word?: string): ReactNode {
       <span className="hl text-accent">{text.slice(i, i + word.length)}</span>
       {text.slice(i + word.length)}
     </>
+  );
+}
+
+/** Quebra o título em palavras para a animação "palavra por palavra" (mantém o destaque). */
+export function splitWords(text: string, word?: string): ReactNode {
+  const lower = text.toLowerCase();
+  const hs = word ? lower.indexOf(word.toLowerCase()) : -1;
+  const he = hs >= 0 ? hs + (word?.length ?? 0) : -1;
+  const out: ReactNode[] = [];
+  let pos = 0;
+  let n = 0;
+  text.split(/(\s+)/).forEach((tok, k) => {
+    const start = pos;
+    pos += tok.length;
+    if (!tok.trim()) {
+      out.push(tok);
+      return;
+    }
+    const inHl = hs >= 0 && start >= hs && start < he;
+    out.push(
+      <span key={k} className="w">
+        <span className={`wi ${inHl ? "hl text-accent" : ""}`} style={{ ["--i" as string]: n++ } as CSSProperties}>
+          {tok}
+        </span>
+      </span>,
+    );
+  });
+  return out;
+}
+
+/** Imagem de fundo que se move mais devagar que a página (parallax). */
+export function Parallax({ children, speed = 0.12, className = "" }: { children: ReactNode; speed?: number; className?: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let raf = 0;
+    const tick = () => {
+      raf = 0;
+      const r = el.getBoundingClientRect();
+      if (r.bottom < -200 || r.top > window.innerHeight + 200) return;
+      const offset = r.top + r.height / 2 - window.innerHeight / 2;
+      el.style.translate = `0 ${(-offset * speed).toFixed(1)}px`;
+    };
+    const on = () => {
+      if (!raf) raf = requestAnimationFrame(tick);
+    };
+    tick();
+    window.addEventListener("scroll", on, { passive: true });
+    window.addEventListener("resize", on);
+    return () => {
+      window.removeEventListener("scroll", on);
+      window.removeEventListener("resize", on);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, [speed]);
+  return (
+    <div ref={ref} className={className}>
+      {children}
+    </div>
   );
 }
 

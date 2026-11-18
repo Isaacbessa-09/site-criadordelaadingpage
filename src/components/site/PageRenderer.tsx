@@ -11,7 +11,7 @@ import { SECTION_COMPONENTS } from "./sections";
 
 const ANCHORS: Record<string, string> = {
   about: "sobre", services: "servicos", products: "cardapio", pricing: "planos", testimonials: "depoimentos",
-  faq: "duvidas", contact: "contato", team: "equipe", gallery: "galeria", steps: "como-funciona", features: "diferenciais",
+  faq: "duvidas", contact: "contato", beforeafter: "resultados", team: "equipe", gallery: "galeria", steps: "como-funciona", features: "diferenciais",
 };
 
 const PAD: Record<string, string> = {
@@ -59,7 +59,7 @@ export function PageRenderer({
       {/* React 19 coloca o <link> no <head> */}
       <link rel="stylesheet" href={fontsHref([page.theme.fontHeading, page.theme.fontBody, ...(page.theme.fontScript ? [page.theme.fontScript] : [])])} precedence="default" />
       <div
-        className={`site min-h-screen ${editable ? `editing mode-${mode}` : ""} ${page.theme.fontScript ? "has-script" : ""} ${page.theme.highlightItalic ? "hl-italic" : ""}`}
+        className={`site min-h-screen ${editable ? `editing mode-${mode}` : ""} ${page.theme.fontScript ? "has-script" : ""} ${page.theme.highlightItalic ? "hl-italic" : ""} ${page.theme.highlightScript ? "hl-script" : ""}`}
         style={themeVars(page)}
       >
         {page.sections.map((s) => {
