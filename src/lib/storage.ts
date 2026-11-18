@@ -121,10 +121,13 @@ export async function kvSet(key: string, value: unknown): Promise<void> {
 
 /* ---------- configurações do site (chave da IA etc.) ---------- */
 export interface Settings {
+  provider?: "gemini" | "anthropic" | "openai";
   geminiKey?: string;
   geminiModel?: string;
+  geminiModels?: string[]; // modelos disponíveis na chave (para tentar outro se der limite)
   anthropicKey?: string;
-  provider?: "gemini" | "anthropic";
+  // Qualquer IA compatível com a API da OpenAI (Groq, OpenRouter, DeepSeek, OpenAI, Mistral...)
+  openai?: { preset?: string; baseUrl?: string; key?: string; model?: string };
 }
 export const getSettings = async () => (await kvGet<Settings>("settings")) ?? {};
 export const saveSettings = (s: Settings) => kvSet("settings", s);
@@ -134,7 +137,7 @@ export async function storageStatus() {
   return {
     storage: redis ? "redis" : onVercel ? "ausente" : "arquivos",
     images: findEnv(["BLOB_READ_WRITE_TOKEN"]) ? "blob" : redis ? "redis" : onVercel ? "ausente" : "arquivos",
-    ai: !!(s.geminiKey || s.anthropicKey || process.env.ANTHROPIC_API_KEY || process.env.GEMINI_API_KEY),
+    ai: !!(s.geminiKey || s.anthropicKey || s.openai?.key || process.env.ANTHROPIC_API_KEY || process.env.GEMINI_API_KEY),
     password: !!process.env.APP_PASSWORD,
     onVercel,
   };
