@@ -6,7 +6,7 @@ import type { CSSProperties } from "react";
 import { fontsHref } from "@/lib/fonts";
 import { SECTION_MAP } from "@/lib/registry";
 import type { PageDoc } from "@/lib/types";
-import { SectionContext, SiteContext, type SiteCtx } from "./primitives";
+import { SectionContext, SiteContext, type EditMode, type SiteCtx } from "./primitives";
 import { SECTION_COMPONENTS } from "./sections";
 
 const ANCHORS: Record<string, string> = {
@@ -27,7 +27,7 @@ export function themeVars(page: PageDoc): CSSProperties {
     "--c-bg": c.bg, "--c-surface": c.surface, "--c-ink": c.ink, "--c-muted": c.muted,
     "--c-primary": c.primary, "--c-on-primary": c.onPrimary, "--c-accent": c.accent, "--c-on-accent": c.onAccent,
     "--c-dark": c.dark, "--c-on-dark": c.onDark,
-    "--f-h": `"${t.fontHeading}"`, "--f-b": `"${t.fontBody}"`,
+    "--f-h": `"${t.fontHeading}"`, "--f-b": `"${t.fontBody}"`, "--f-s": t.fontScript ? `"${t.fontScript}"` : undefined,
     "--r": `${t.radius}px`,
     "--h-w": t.headingWeight, "--h-t": `${t.headingTracking}em`, "--h-tt": t.headingUppercase ? "uppercase" : "none",
   } as any;
@@ -37,12 +37,16 @@ export function PageRenderer({
   page,
   editable = false,
   selectedId,
+  selectedEl,
+  mode = "texto",
   onEdit,
   onSelect,
 }: {
   page: PageDoc;
   editable?: boolean;
   selectedId?: string | null;
+  selectedEl?: string | null;
+  mode?: EditMode;
   onEdit?: SiteCtx["onEdit"];
   onSelect?: SiteCtx["onSelect"];
 }) {
@@ -51,10 +55,13 @@ export function PageRenderer({
   const wa = String(contact?.props.whatsapp ?? "").replace(/\D/g, "");
 
   return (
-    <SiteContext.Provider value={{ editable, onEdit, onSelect, brand: page.brand }}>
+    <SiteContext.Provider value={{ editable, mode, selectedEl, onEdit, onSelect, brand: page.brand }}>
       {/* React 19 coloca o <link> no <head> */}
-      <link rel="stylesheet" href={fontsHref([page.theme.fontHeading, page.theme.fontBody])} precedence="default" />
-      <div className={`site min-h-screen ${editable ? "editing" : ""}`} style={themeVars(page)}>
+      <link rel="stylesheet" href={fontsHref([page.theme.fontHeading, page.theme.fontBody, ...(page.theme.fontScript ? [page.theme.fontScript] : [])])} precedence="default" />
+      <div
+        className={`site min-h-screen ${editable ? `editing mode-${mode}` : ""} ${page.theme.fontScript ? "has-script" : ""} ${page.theme.highlightItalic ? "hl-italic" : ""}`}
+        style={themeVars(page)}
+      >
         {page.sections.map((s) => {
           if (s.style.hidden) return null;
           const Cmp = SECTION_COMPONENTS[s.type];
@@ -69,7 +76,7 @@ export function PageRenderer({
                 id={anchor}
                 data-sid={s.id}
                 className={`tone-${s.style.tone} ${self ? "" : PAD[s.style.padding]} ${selectedId === s.id ? "is-selected" : ""} relative scroll-mt-20`}
-                onClickCapture={editable ? () => onSelect?.(s.id) : undefined}
+                onClickCapture={editable && mode !== "mover" ? () => onSelect?.(s.id) : undefined}
               >
                 {editable && <span className="sec-label">{SECTION_MAP[s.type]?.label ?? s.type}</span>}
                 <Cmp p={s.props} />

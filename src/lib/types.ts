@@ -3,6 +3,15 @@ export type Anim = "subir" | "fade" | "zoom" | "lateral" | "nenhuma";
 export type Align = "left" | "center" | "right";
 export type Padding = "sm" | "md" | "lg";
 
+/** Ajuste manual de um elemento (texto, botão, imagem, ícone). d = computador/tablet, m = celular. */
+export interface ElState {
+  hidden?: boolean;
+  dx?: number;
+  dy?: number;
+  mx?: number;
+  my?: number;
+}
+
 export interface SectionStyle {
   tone: Tone;
   align: Align;
@@ -10,6 +19,7 @@ export interface SectionStyle {
   anim: Anim;
   variant?: string;
   hidden?: boolean;
+  el?: Record<string, ElState>;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -43,6 +53,8 @@ export interface Theme {
   headingWeight: number;
   headingUppercase: boolean;
   headingTracking: number; // em, ex: -0.02
+  fontScript?: string; // fonte cursiva opcional para as etiquetas (ex: Allura)
+  highlightItalic?: boolean; // palavra em destaque em itálico
 }
 
 export interface PageDoc {

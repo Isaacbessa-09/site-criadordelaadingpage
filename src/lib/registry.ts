@@ -31,6 +31,7 @@ const st = (s: Partial<SectionStyle> = {}): SectionStyle => ({
 const head: Field[] = [
   { key: "eyebrow", label: "Etiqueta (texto pequeno acima)", type: "text" },
   { key: "title", label: "Título", type: "textarea" },
+  { key: "highlight", label: "Trecho do título em destaque", type: "text" },
   { key: "subtitle", label: "Subtítulo", type: "textarea" },
 ];
 
@@ -39,6 +40,7 @@ export const ICONS = [
   "Coffee", "Croissant", "Leaf", "Wifi", "Truck", "Gift", "Award", "Zap", "Target", "Dumbbell",
   "Smile", "Stethoscope", "HeartPulse", "Baby", "Syringe", "Microscope", "Phone", "MessageCircle",
   "CheckCircle", "ThumbsUp", "Sun", "Flame", "Wallet", "CreditCard", "Camera", "Music", "Utensils",
+  "Eye", "Scissors", "Brush", "Palette", "Flower2", "Gem", "Crown", "Droplets", "Hand", "Feather", "Armchair", "UserRound", "BadgeCheck", "SprayCan",
 ] as const;
 
 export const SECTIONS: SectionDef[] = [
@@ -80,6 +82,7 @@ export const SECTIONS: SectionDef[] = [
       { value: "background", label: "Imagem de fundo" },
       { value: "split", label: "Texto + imagem redonda" },
       { value: "card", label: "Texto + imagem em card" },
+      { value: "editorial", label: "Editorial (foto grande à direita)" },
     ],
     fields: [
       { key: "eyebrow", label: "Etiqueta", type: "text" },
@@ -91,6 +94,7 @@ export const SECTIONS: SectionDef[] = [
       { key: "cta2Label", label: "Botão secundário", type: "text" },
       { key: "cta2Href", label: "Link do botão secundário", type: "url" },
       { key: "image", label: "Imagem principal", type: "image" },
+      { key: "seal", label: "Selo girando (texto em círculo)", type: "text" },
       { key: "proofValue", label: "Prova social (número)", type: "text" },
       { key: "proofLabel", label: "Prova social (texto)", type: "text" },
       { key: "avatars", label: "Fotos da prova social", type: "list", itemLabel: "Foto", fields: [
@@ -125,6 +129,10 @@ export const SECTIONS: SectionDef[] = [
     type: "marquee",
     label: "Faixa animada",
     description: "Faixa com frases curtas passando em loop.",
+    variants: [
+      { value: "bold", label: "Faixa colorida" },
+      { value: "elegant", label: "Elegante (letras grandes em itálico)" },
+    ],
     fields: [
       { key: "items", label: "Frases", type: "list", itemLabel: "Frase", fields: [
         { key: "text", label: "Texto", type: "text" },
@@ -166,6 +174,7 @@ export const SECTIONS: SectionDef[] = [
     variants: [
       { value: "image-right", label: "Imagem à direita" },
       { value: "image-left", label: "Imagem à esquerda" },
+      { value: "arch", label: "Foto em arco + assinatura" },
     ],
     fields: [
       ...head,
@@ -175,6 +184,8 @@ export const SECTIONS: SectionDef[] = [
       ] },
       { key: "image", label: "Imagem principal", type: "image" },
       { key: "image2", label: "Imagem secundária", type: "image" },
+      { key: "watermark", label: "Marca d'água (texto grande ao fundo)", type: "text" },
+      { key: "signature", label: "Assinatura (letra cursiva)", type: "text" },
       { key: "badgeValue", label: "Selo (número)", type: "text" },
       { key: "badgeLabel", label: "Selo (texto)", type: "text" },
       { key: "ctaLabel", label: "Botão", type: "text" },
@@ -198,6 +209,11 @@ export const SECTIONS: SectionDef[] = [
     type: "features",
     label: "Diferenciais (ícones)",
     description: "Grade de cards com ícone, título e texto.",
+    variants: [
+      { value: "cards", label: "Cards" },
+      { value: "linhas", label: "Colunas com linhas finas" },
+      { value: "bar", label: "Faixa de selos (compacta)" },
+    ],
     fields: [
       ...head,
       { key: "items", label: "Cards", type: "list", itemLabel: "Card", fields: [
@@ -222,10 +238,15 @@ export const SECTIONS: SectionDef[] = [
     type: "services",
     label: "Serviços (cards com foto)",
     description: "Cards com imagem, etiqueta, título e texto.",
+    variants: [
+      { value: "overlay", label: "Texto sobre a foto" },
+      { value: "stacked", label: "Foto em cima, texto embaixo" },
+    ],
     fields: [
       ...head,
       { key: "items", label: "Serviços", type: "list", itemLabel: "Serviço", fields: [
         { key: "image", label: "Imagem", type: "image" },
+        { key: "icon", label: "Ícone", type: "icon" },
         { key: "tag", label: "Etiqueta", type: "text" },
         { key: "title", label: "Título", type: "text" },
         { key: "text", label: "Texto", type: "textarea" },
@@ -271,9 +292,14 @@ export const SECTIONS: SectionDef[] = [
     type: "steps",
     label: "Passo a passo",
     description: "Como funciona, em etapas numeradas, com imagem.",
+    variants: [
+      { value: "image", label: "Etapas + imagem" },
+      { value: "booking", label: "Agendamento com selo girando" },
+    ],
     fields: [
       ...head,
       { key: "image", label: "Imagem", type: "image" },
+      { key: "seal", label: "Texto do selo girando", type: "text" },
       { key: "items", label: "Etapas", type: "list", itemLabel: "Etapa", fields: [
         { key: "title", label: "Título", type: "text" },
         { key: "text", label: "Texto", type: "textarea" },

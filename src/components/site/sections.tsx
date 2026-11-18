@@ -1,9 +1,9 @@
 "use client";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useState, type ReactNode } from "react";
-import { Check, Mail, MapPin, Menu, MessageCircle, Phone, Plus, Quote, Star, X, Clock, AtSign } from "lucide-react";
-import { Btn, Counter, Icon, Img, Reveal, SectionHead, T, alignClass, justifyClass, useSection, useSite } from "./primitives";
+import { useEffect, useId, useState, type ReactNode } from "react";
+import { ArrowRight, Check, Mail, MapPin, Menu, MessageCircle, Phone, Plus, Quote, Star, X, Clock, AtSign, CalendarHeart } from "lucide-react";
+import { Btn, Counter, El, Icon, Img, Reveal, SectionHead, T, alignClass, highlight, justifyClass, useSection, useSite } from "./primitives";
 import type { Props } from "@/lib/types";
 
 const C = "mx-auto w-full max-w-7xl px-5 md:px-8";
@@ -18,15 +18,23 @@ function Brand({ big = false }: { big?: boolean }) {
   return <span className={`h ${big ? "text-3xl" : "text-xl"}`}>{brand?.name || "Sua Marca"}</span>;
 }
 
-function highlight(text: string, word?: string): ReactNode {
-  if (!word || !text.toLowerCase().includes(word.toLowerCase())) return text;
-  const i = text.toLowerCase().indexOf(word.toLowerCase());
+
+/** Selo circular com texto girando (ex: "ATENDIMENTO EXCLUSIVO • BELEZA NATURAL •"). */
+export function Seal({ text, center, className = "" }: { text: string; center?: ReactNode; className?: string }) {
+  const id = useId().replace(/:/g, "");
+  const { brand } = useSite();
   return (
-    <>
-      {text.slice(0, i)}
-      <span className="text-accent">{text.slice(i, i + word.length)}</span>
-      {text.slice(i + word.length)}
-    </>
+    <div className={`relative grid aspect-square place-items-center ${className}`}>
+      <svg viewBox="0 0 200 200" className="spin-slow absolute inset-0 h-full w-full" aria-hidden>
+        <defs>
+          <path id={`seal-${id}`} d="M100,100 m-80,0 a80,80 0 1,1 160,0 a80,80 0 1,1 -160,0" />
+        </defs>
+        <text fill="currentColor" style={{ fontSize: 13, letterSpacing: "0.3em", textTransform: "uppercase", fontFamily: "var(--f-b)" }}>
+          <textPath href={`#seal-${id}`}>{text}</textPath>
+        </text>
+      </svg>
+      <div className="relative grid place-items-center">{center ?? <span className="h text-4xl">{(brand?.name || "B").trim()[0]}</span>}</div>
+    </div>
   );
 }
 
@@ -105,11 +113,11 @@ function Proof({ p, light }: { p: Props; light?: boolean }) {
   if (!p.proofValue && !editable) return null;
   return (
     <div className="flex items-center gap-3">
-      <div className="flex -space-x-3">
+      <El path="avatars" className="flex -space-x-3">
         {(p.avatars ?? []).slice(0, 4).map((a: any, i: number) => (
           <Img key={i} path={`avatars.${i}.image`} src={a.image} className={`size-11 overflow-hidden rounded-full border-2 ${light ? "border-white/80" : "border-[var(--c-bg)]"}`} />
         ))}
-      </div>
+      </El>
       <div className="leading-tight">
         <T as="div" path="proofValue" value={p.proofValue} className="h text-xl" />
         <T as="div" path="proofLabel" value={p.proofLabel} className="text-sm text-muted" />
@@ -120,7 +128,7 @@ function Proof({ p, light }: { p: Props; light?: boolean }) {
 
 function Badge({ b, i, className = "" }: { b: any; i: number; className?: string }) {
   return (
-    <div className={`flex items-center gap-3 rounded-2xl border border-white/40 bg-white/85 p-3 pr-5 text-neutral-900 shadow-[0_20px_50px_-20px_rgb(0_0_0/.45)] backdrop-blur-md ${className}`}>
+    <El path={`badges.${i}`} className={`flex items-center gap-3 rounded-2xl border border-white/40 bg-white/85 p-3 pr-5 text-neutral-900 shadow-[0_20px_50px_-20px_rgb(0_0_0/.45)] backdrop-blur-md ${className}`}>
       <span className="grid size-11 place-items-center rounded-xl bg-accent text-on-accent">
         <Icon name={b.icon} size={20} />
       </span>
@@ -128,7 +136,7 @@ function Badge({ b, i, className = "" }: { b: any; i: number; className?: string
         <T as="div" path={`badges.${i}.title`} value={b.title} className="text-lg font-bold" />
         <T as="div" path={`badges.${i}.text`} value={b.text} className="text-xs text-neutral-600" />
       </div>
-    </div>
+    </El>
   );
 }
 
@@ -161,11 +169,50 @@ export function Hero({ p }: P) {
               <Btn labelPath="cta2Label" label={p.cta2Label} href={p.cta2Href} kind="outline" arrow={false} />
             </div>
           </div>
-          {al !== "center" && al !== "right" && badges.length > 0 && (
+          {al !== "center" && al !== "right" && p.seal && (
+            <El path="seal" className="hidden justify-self-end text-white/90 lg:block">
+              <Seal text={p.seal} className="size-40" />
+            </El>
+          )}
+          {al !== "center" && al !== "right" && !p.seal && badges.length > 0 && (
             <div className="hidden flex-col items-end gap-4 lg:flex">
               {badges.map((b, i) => (
                 <Badge key={i} b={b} i={i} className={i % 2 ? "floaty-2 mr-10" : "floaty"} />
               ))}
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  if (v === "editorial") {
+    return (
+      <div className="relative isolate overflow-hidden">
+        <div className={`${C} relative grid min-h-[86vh] items-center py-16 lg:grid-cols-2 lg:py-24`}>
+          <div className={`hero-in relative z-10 flex flex-col gap-7 lg:pr-12 ${al === "center" ? "items-center text-center lg:col-span-2" : ""}`}>
+            {p.eyebrow && <T path="eyebrow" value={p.eyebrow} className="text-xs font-medium uppercase tracking-[0.28em] text-muted" />}
+            <T as="h1" path="title" value={p.title} render={(t) => highlight(t, p.highlight)} className="h block text-[clamp(3rem,6.4vw,6.2rem)] leading-[0.98]" />
+            <El path="divider" className="h-px w-16 bg-accent" />
+            <T as="p" path="subtitle" value={p.subtitle} className="block max-w-md text-lg leading-relaxed text-muted" />
+            <div className={`flex flex-wrap gap-3 ${al === "center" ? "justify-center" : ""}`}>
+              <Btn labelPath="ctaLabel" label={p.ctaLabel} href={p.ctaHref} />
+              <Btn labelPath="cta2Label" label={p.cta2Label} href={p.cta2Href} kind="outline" arrow={false} />
+            </div>
+            <div className="pt-2">
+              <Proof p={p} />
+            </div>
+          </div>
+          {al !== "center" && (
+            <div className="relative mt-12 h-[70vh] lg:absolute lg:inset-y-0 lg:right-0 lg:mt-0 lg:h-auto lg:w-1/2">
+              <Img path="image" src={p.image} eager className="absolute inset-0 overflow-hidden r-lg lg:rounded-none" imgClassName="kenburns h-full w-full object-cover" />
+              <div className="pointer-events-none absolute inset-y-0 left-0 hidden w-40 bg-gradient-to-r from-[var(--c-bg)] to-transparent lg:block" />
+              {p.seal && (
+                <El path="seal" className="absolute bottom-8 left-6 text-white drop-shadow lg:bottom-16 lg:-left-20 lg:text-ink">
+                  <Seal text={p.seal} className="size-32 rounded-full bg-[color-mix(in_srgb,var(--c-bg)_70%,transparent)] backdrop-blur-sm md:size-40" />
+                </El>
+              )}
+              {badges[0] && <Badge b={badges[0]} i={0} className="floaty absolute top-10 right-6" />}
             </div>
           )}
         </div>
@@ -242,6 +289,26 @@ export function Hero({ p }: P) {
 export function Marquee({ p }: P) {
   const items: any[] = p.items ?? [];
   const { editable } = useSite();
+  const { style } = useSection();
+  if (style.variant === "elegant" && !editable) {
+    const row = [...items, ...items];
+    return (
+      <div className="marquee overflow-hidden py-4" style={{ ["--marquee-speed" as any]: `${Math.max(30, items.length * 9)}s` } as any}>
+        <div className="marquee-track flex w-max">
+          {[0, 1].map((k) => (
+            <div key={k} className="flex shrink-0 items-center" aria-hidden={k === 1}>
+              {row.map((it, i) => (
+                <span key={i} className="flex items-center gap-10 pr-10 whitespace-nowrap">
+                  <span className={`h text-[clamp(3rem,8vw,7.5rem)] leading-none italic ${i % 2 ? "outline-text" : ""}`}>{it.text}</span>
+                  <span className="text-2xl text-accent">✦</span>
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
   if (editable) {
     return (
       <div className={`${C} flex flex-wrap items-center gap-x-8 gap-y-2 py-1`}>
@@ -296,7 +363,54 @@ export function Stats({ p }: P) {
 }
 
 /* ================= ABOUT ================= */
+function AboutArch({ p }: P) {
+  const { style } = useSection();
+  const { editable } = useSite();
+  return (
+    <div className="relative">
+      {(p.watermark || editable) && (
+        <El path="watermark" className="pointer-events-none absolute inset-x-0 top-0 overflow-hidden text-center select-none">
+          <span className="script block text-[clamp(5rem,15vw,13rem)] leading-none whitespace-nowrap text-accent opacity-[0.12]">{p.watermark}</span>
+        </El>
+      )}
+      <div className={`${C} relative grid items-center gap-14 pt-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20`}>
+        <Reveal anim={style.anim === "nenhuma" ? "nenhuma" : "zoom"} className="relative mx-auto w-full max-w-md">
+          <div className="absolute -inset-4 rounded-t-full border border-[color-mix(in_srgb,var(--c-accent)_45%,transparent)]" />
+          <Img path="image" src={p.image} className="zoom-img relative aspect-[3/4] overflow-hidden rounded-t-full rounded-b-[var(--r)]" />
+          {(p.image2 || editable) && (
+            <Img path="image2" src={p.image2} className="zoom-img absolute -right-6 -bottom-8 size-36 overflow-hidden rounded-full border-[6px] border-[var(--c-bg)] shadow-xl md:size-44" />
+          )}
+        </Reveal>
+        <div>
+          <SectionHead p={p} />
+          {(p.text || editable) && (
+            <Reveal i={3}>
+              <T as="p" path="text" value={p.text} className={`mt-6 block text-lg leading-relaxed whitespace-pre-line text-muted ${alignClass(style.align)}`} />
+            </Reveal>
+          )}
+          <ul className="mt-8 grid gap-3 sm:grid-cols-2">
+            {(p.bullets ?? []).map((b: any, i: number) => (
+              <Reveal as="li" key={i} i={i + 3} className="flex items-center gap-3 text-sm">
+                <span className="text-accent">✦</span>
+                <T path={`bullets.${i}.text`} value={b.text} />
+              </Reveal>
+            ))}
+          </ul>
+          <Reveal i={6} className={`mt-10 flex flex-wrap items-center gap-8 ${justifyClass(style.align)}`}>
+            {(p.signature || editable) && <T path="signature" value={p.signature} className="script text-5xl text-accent" />}
+            <Btn labelPath="ctaLabel" label={p.ctaLabel} href={p.ctaHref} />
+          </Reveal>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function About({ p }: P) {
+  return useSection().style.variant === "arch" ? <AboutArch p={p} /> : <AboutDefault p={p} />;
+}
+
+function AboutDefault({ p }: P) {
   const { style, } = useSection();
   const { editable } = useSite();
   const left = style.variant === "image-left";
@@ -329,12 +443,12 @@ export function About({ p }: P) {
           <Img path="image2" src={p.image2} className="zoom-img absolute right-0 bottom-0 aspect-square w-[46%] overflow-hidden r-lg border-[6px] border-[var(--c-bg)] shadow-xl" />
         )}
         {(p.badgeValue || editable) && (
-          <div className="floaty absolute top-8 left-0 grid size-32 place-items-center rounded-full bg-accent text-center text-on-accent shadow-xl md:size-36">
+          <El path="badge" className="floaty absolute top-8 left-0 grid size-32 place-items-center rounded-full bg-accent text-center text-on-accent shadow-xl md:size-36">
             <div className="leading-tight">
               <T as="div" path="badgeValue" value={p.badgeValue} className="h text-3xl md:text-4xl" />
               <T as="div" path="badgeLabel" value={p.badgeLabel} className="text-xs font-semibold uppercase tracking-wider" />
             </div>
-          </div>
+          </El>
         )}
       </Reveal>
     </div>
@@ -345,6 +459,44 @@ export function About({ p }: P) {
 export function Features({ p }: P) {
   const items: any[] = p.items ?? [];
   const { style } = useSection();
+  if (style.variant === "bar") {
+    return (
+      <div className={C}>
+        <SectionHead p={p} className="mb-8" />
+        <div className={`grid grid-cols-2 gap-y-6 lg:flex lg:justify-between`}>
+          {items.map((it, i) => (
+            <Reveal key={i} i={i} className={`flex items-center gap-4 px-4 lg:flex-1 lg:justify-center ${i > 0 ? "lg:border-l lg:border-line" : ""}`}>
+              <El path={`items.${i}.icon`} as="span" className="text-accent">
+                <Icon name={it.icon} size={26} strokeWidth={1.25} />
+              </El>
+              <div className="leading-tight">
+                <T as="div" path={`items.${i}.title`} value={it.title} className="text-xs font-semibold uppercase tracking-[0.16em]" />
+                <T as="div" path={`items.${i}.text`} value={it.text} className="mt-0.5 text-xs text-muted" />
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    );
+  }
+  if (style.variant === "linhas") {
+    return (
+      <div className={C}>
+        <SectionHead p={p} className="mb-16" />
+        <div className={`grid gap-y-12 sm:grid-cols-2 ${items.length >= 5 ? "lg:grid-cols-5" : items.length === 4 ? "lg:grid-cols-4" : "lg:grid-cols-3"}`}>
+          {items.map((it, i) => (
+            <Reveal key={i} i={i} className={`group flex flex-col items-center gap-4 px-6 text-center ${i > 0 ? "lg:border-l lg:border-line" : ""}`}>
+              <El path={`items.${i}.icon`} as="span" className="grid size-16 place-items-center rounded-full border border-[color-mix(in_srgb,var(--c-accent)_55%,transparent)] text-accent transition duration-500 group-hover:bg-accent group-hover:text-on-accent">
+                <Icon name={it.icon} size={24} strokeWidth={1.25} />
+              </El>
+              <T as="h3" path={`items.${i}.title`} value={it.title} className="h block text-xl" />
+              <T as="p" path={`items.${i}.text`} value={it.text} className="block text-sm leading-relaxed text-muted" />
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    );
+  }
   const cols = items.length >= 4 ? "lg:grid-cols-4" : "lg:grid-cols-3";
   return (
     <div className={C}>
@@ -352,9 +504,9 @@ export function Features({ p }: P) {
       <div className={`grid gap-5 sm:grid-cols-2 ${cols}`}>
         {items.map((it, i) => (
           <Reveal key={i} i={i} className={`group lift flex flex-col gap-5 bg-card p-8 r-lg border border-line ${alignClass(style.align)} ${style.align === "center" ? "items-center" : ""}`}>
-            <span className="grid size-14 place-items-center rounded-2xl bg-accent text-on-accent transition-transform duration-500 group-hover:-rotate-12 group-hover:scale-110">
+            <El path={`items.${i}.icon`} as="span" className="grid size-14 place-items-center rounded-2xl bg-accent text-on-accent transition-transform duration-500 group-hover:-rotate-12 group-hover:scale-110">
               <Icon name={it.icon} size={26} />
-            </span>
+            </El>
             <T as="h3" path={`items.${i}.title`} value={it.title} className="h block text-2xl" />
             <T as="p" path={`items.${i}.text`} value={it.text} className="block leading-relaxed text-muted" />
           </Reveal>
@@ -368,6 +520,38 @@ export function Features({ p }: P) {
 export function Services({ p }: P) {
   const items: any[] = p.items ?? [];
   const { editable } = useSite();
+  const { style } = useSection();
+  if (style.variant === "stacked") {
+    return (
+      <div className={C}>
+        <SectionHead p={p} className="mb-14" />
+        <div className={`grid gap-6 sm:grid-cols-2 ${items.length >= 4 ? "lg:grid-cols-4" : "lg:grid-cols-3"}`}>
+          {items.map((it, i) => (
+            <Reveal key={i} i={i} className="group lift flex flex-col overflow-hidden bg-card r">
+              <Img path={`items.${i}.image`} src={it.image} className="zoom-img aspect-[4/3] overflow-hidden" />
+              <div className="flex flex-1 gap-4 p-7">
+                {it.icon && (
+                  <El path={`items.${i}.icon`} as="span" className="mt-1 shrink-0 text-accent">
+                    <Icon name={it.icon} size={26} strokeWidth={1.25} />
+                  </El>
+                )}
+                <div className="flex flex-1 flex-col gap-2">
+                  <T as="h3" path={`items.${i}.title`} value={it.title} className="h block text-2xl" />
+                  <T as="p" path={`items.${i}.text`} value={it.text} className="block flex-1 text-sm leading-relaxed text-muted" />
+                  {(p.ctaLabel || editable) && (
+                    <a href={p.ctaHref || "#"} onClick={editable ? (e) => e.preventDefault() : undefined} className="mt-3 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-ink">
+                      <T path="ctaLabel" value={p.ctaLabel} movable={false} />
+                      <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
+                    </a>
+                  )}
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    );
+  }
   return (
     <div className={C}>
       <div className="mb-12 flex flex-col justify-between gap-6 md:flex-row md:items-end">
@@ -441,7 +625,54 @@ export function Products({ p }: P) {
 }
 
 /* ================= STEPS ================= */
+function StepsBooking({ p }: P) {
+  const items: any[] = p.items ?? [];
+  const { editable } = useSite();
+  return (
+    <div className={`${C} grid items-center gap-14 lg:grid-cols-2`}>
+      <div>
+        <SectionHead p={p} />
+        <ol className="mt-10 flex flex-col gap-5">
+          {items.map((it, i) => (
+            <Reveal as="li" key={i} i={i + 2} className="flex items-start gap-4">
+              <span className="grid size-9 shrink-0 place-items-center rounded-full border border-line text-sm text-muted">{i + 1}</span>
+              <div className="pt-1.5">
+                <T as="div" path={`items.${i}.title`} value={it.title} className="font-medium" />
+                <T as="div" path={`items.${i}.text`} value={it.text} className="text-sm text-muted" />
+              </div>
+            </Reveal>
+          ))}
+        </ol>
+      </div>
+      <Reveal anim="zoom" className="flex justify-center">
+        <El path="seal" className="text-ink">
+          <Seal
+            text={p.seal || "agende já • faça seu agendamento • "}
+            className="size-72 md:size-80"
+            center={
+              <a
+                href={p.ctaHref || "#"}
+                onClick={editable ? (e) => e.preventDefault() : undefined}
+                className="btn pulse-ring grid size-40 place-items-center rounded-full bg-dark text-center text-on-dark shadow-2xl md:size-44"
+              >
+                <span className="flex flex-col items-center gap-2">
+                  <CalendarHeart size={26} strokeWidth={1.4} />
+                  <T path="ctaLabel" value={p.ctaLabel} movable={false} className="h text-2xl" />
+                </span>
+              </a>
+            }
+          />
+        </El>
+      </Reveal>
+    </div>
+  );
+}
+
 export function Steps({ p }: P) {
+  return useSection().style.variant === "booking" ? <StepsBooking p={p} /> : <StepsDefault p={p} />;
+}
+
+function StepsDefault({ p }: P) {
   const items: any[] = p.items ?? [];
   return (
     <div className={`${C} grid items-center gap-14 lg:grid-cols-2 lg:gap-20`}>
@@ -464,10 +695,10 @@ export function Steps({ p }: P) {
       </div>
       <Reveal anim="zoom" className="relative">
         <Img path="image" src={p.image} className="zoom-img aspect-[4/5] overflow-hidden r-lg" />
-        <div className="floaty absolute -bottom-6 left-6 flex items-center gap-3 rounded-2xl bg-accent px-5 py-4 text-on-accent shadow-xl">
+        <El path="stepsBadge" className="floaty absolute -bottom-6 left-6 flex items-center gap-3 rounded-2xl bg-accent px-5 py-4 text-on-accent shadow-xl">
           <span className="h text-3xl">{items.length}</span>
           <span className="text-sm leading-tight font-semibold">passos<br />simples</span>
-        </div>
+        </El>
       </Reveal>
     </div>
   );

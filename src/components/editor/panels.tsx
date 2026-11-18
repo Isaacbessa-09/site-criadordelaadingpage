@@ -250,6 +250,8 @@ export function ContentPanel() {
         </div>
       </Group>
 
+      <ElementsBox section={s} />
+
       <Group title="Conteúdo">
         {def?.fields.map((f) => (
           <FieldEditor key={f.key} field={f} path={f.key} value={s.props[f.key]} section={s} />
@@ -258,6 +260,76 @@ export function ContentPanel() {
 
       <AiSectionBox section={s} />
     </div>
+  );
+}
+
+/** Nome amigável de um elemento: "items.2.title" -> "Cards 3 › Título". */
+function elLabel(type: string, path: string): string {
+  const def = SECTION_MAP[type];
+  const extra: Record<string, string> = { avatars: "Fotos da prova social", badge: "Selo", stepsBadge: "Selo dos passos", eyebrow: "Etiqueta" };
+  const isBtn = path.startsWith("btn:");
+  const parts = path.replace(/^btn:/, "").split(".");
+  const f = def?.fields.find((x) => x.key === parts[0]);
+  let label = extra[parts[0]] ?? f?.label ?? parts[0];
+  if (parts.length >= 2 && /^\d+$/.test(parts[1])) {
+    label = `${f?.itemLabel ?? label} ${Number(parts[1]) + 1}`;
+    if (parts[2]) label += ` › ${f?.fields?.find((x) => x.key === parts[2])?.label ?? parts[2]}`;
+  }
+  return isBtn ? `Botão: ${label}` : label;
+}
+
+function ElementsBox({ section }: { section: Section }) {
+  const entries = Object.entries(section.style.el ?? {});
+  const hidden = entries.filter(([, v]) => v.hidden);
+  const moved = entries.filter(([, v]) => v.dx || v.dy || v.mx || v.my);
+  return (
+    <Group
+      title="Elementos"
+      actions={
+        entries.length > 0 ? (
+          <button onClick={() => actions.resetEls(section.id)} className="cursor-pointer text-xs font-medium text-indigo-600 hover:underline">
+            Restaurar tudo
+          </button>
+        ) : undefined
+      }
+    >
+      <p className="-mt-2 text-xs leading-relaxed text-zinc-500">
+        Use <b>Mover / excluir</b> no topo para arrastar qualquer texto, botão, ícone ou imagem. Com um elemento selecionado: <b>Delete</b> exclui e as <b>setas</b> ajustam. No modo celular a posição é separada.
+      </p>
+      {hidden.length > 0 && (
+        <div>
+          <Label>Excluídos</Label>
+          <ul className="flex flex-col gap-1">
+            {hidden.map(([path]) => (
+              <li key={path} className="flex items-center justify-between rounded-lg border border-zinc-200 px-3 py-1.5 text-sm">
+                <span className="truncate">{elLabel(section.type, path)}</span>
+                <button onClick={() => actions.el(section.id, path, { hidden: false })} className="cursor-pointer text-xs font-medium text-indigo-600 hover:underline">
+                  Mostrar
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      {moved.length > 0 && (
+        <div>
+          <Label>Movidos</Label>
+          <ul className="flex flex-col gap-1">
+            {moved.map(([path]) => (
+              <li key={path} className="flex items-center justify-between rounded-lg border border-zinc-200 px-3 py-1.5 text-sm">
+                <span className="truncate">{elLabel(section.type, path)}</span>
+                <button
+                  onClick={() => actions.el(section.id, path, { dx: 0, dy: 0, mx: 0, my: 0 })}
+                  className="cursor-pointer text-xs font-medium text-indigo-600 hover:underline"
+                >
+                  Voltar ao lugar
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </Group>
   );
 }
 
@@ -460,6 +532,19 @@ export function DesignPanel() {
           <Label hint={`${t.headingTracking}em`}>Espaçamento entre letras (títulos)</Label>
           <input type="range" min={-0.06} max={0.06} step={0.005} value={t.headingTracking} onChange={(e) => actions.theme({ headingTracking: Number(e.target.value) }, "tracking")} className="w-full accent-indigo-600" />
         </div>
+        <div>
+          <Label hint="opcional">Fonte cursiva nas etiquetas</Label>
+          <select className={inputCls} value={t.fontScript ?? ""} onChange={(e) => actions.theme({ fontScript: e.target.value || undefined })}>
+            <option value="">Nenhuma (etiqueta normal)</option>
+            {FONTS.filter((f) => f.kind === "script").map((f) => (
+              <option key={f.name} value={f.name}>{f.name}</option>
+            ))}
+          </select>
+        </div>
+        <label className="flex cursor-pointer items-center justify-between text-sm">
+          <span className="font-medium text-zinc-700">Palavra em destaque em itálico</span>
+          <input type="checkbox" checked={!!t.highlightItalic} onChange={(e) => actions.theme({ highlightItalic: e.target.checked })} className="size-4 accent-indigo-600" />
+        </label>
         <label className="flex cursor-pointer items-center justify-between text-sm">
           <span className="font-medium text-zinc-700">Títulos em MAIÚSCULAS</span>
           <input type="checkbox" checked={t.headingUppercase} onChange={(e) => actions.theme({ headingUppercase: e.target.checked })} className="size-4 accent-indigo-600" />
@@ -492,7 +577,7 @@ export function DesignPanel() {
 }
 
 function FontSelect({ value, onChange }: { value: string; onChange: (v: string) => void }) {
-  const groups = { sans: "Sem serifa", serif: "Com serifa", display: "Display / impacto" } as const;
+  const groups = { sans: "Sem serifa", serif: "Com serifa", display: "Display / impacto", script: "Cursiva" } as const;
   return (
     <select className={inputCls} value={value} onChange={(e) => onChange(e.target.value)}>
       {(Object.keys(groups) as (keyof typeof groups)[]).map((g) => (

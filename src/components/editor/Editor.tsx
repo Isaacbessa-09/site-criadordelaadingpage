@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import {
   ArrowLeft, Check, Copy, ExternalLink, FileDown, Globe, Layers, Loader2, Monitor, Palette, PenLine, Redo2, Smartphone,
-  Sparkles, Tablet, Undo2, X,
+  Move, Sparkles, Tablet, Type, Undo2, X,
 } from "lucide-react";
 import type { PageDoc } from "@/lib/types";
 import { AiPanel, ContentPanel, DesignPanel, SectionsPanel } from "./panels";
@@ -28,10 +28,12 @@ export function Editor({ id }: { id: string }) {
   const canUndo = useEditor((s) => s.past.length > 0);
   const canRedo = useEditor((s) => s.future.length > 0);
   const [device, setDevice] = useState<keyof typeof DEVICES>("desktop");
+  const [mode, setMode] = useState<"texto" | "mover">("texto");
   const [save, setSave] = useState<"saved" | "saving" | "error">("saved");
   const [pubOpen, setPubOpen] = useState(false);
   const [error, setError] = useState("");
   const frame = useRef<HTMLIFrameElement>(null);
+  const modeRef = useRef(mode);
   const loaded = useRef(false);
 
   /* carregar */
@@ -52,6 +54,11 @@ export function Editor({ id }: { id: string }) {
     send({ type: "select", id: selectedId, scroll: true });
   }, [selectedId, send]);
 
+  useEffect(() => {
+    modeRef.current = mode;
+    send({ type: "mode", mode });
+  }, [mode, send]);
+
   /* mensagens do iframe */
   useEffect(() => {
     const onMsg = (e: MessageEvent) => {
@@ -60,12 +67,15 @@ export function Editor({ id }: { id: string }) {
       if (e.data.type === "ready" && st.page) {
         send({ type: "page", page: st.page });
         send({ type: "select", id: st.selectedId });
+        send({ type: "mode", mode: modeRef.current });
       }
       if (e.data.type === "select") {
         st.select(e.data.id, e.data.path ?? null);
         if (e.data.path || st.tab === "dobras") st.setTab("editar");
       }
       if (e.data.type === "edit") actions.prop(e.data.id, e.data.path, e.data.value);
+      if (e.data.type === "el") actions.el(e.data.id, e.data.path, e.data.patch);
+      if (e.data.type === "selectSection") st.select(e.data.id);
     };
     window.addEventListener("message", onMsg);
     return () => window.removeEventListener("message", onMsg);
@@ -132,7 +142,24 @@ export function Editor({ id }: { id: string }) {
             {page.published && page.slug && <span className="ml-2 inline-flex items-center gap-1 text-emerald-600"><Globe size={11} /> Publicada</span>}
           </div>
         </div>
-        <div className="mx-auto flex items-center gap-1 rounded-lg bg-zinc-100 p-1">
+        <div className="mx-auto flex items-center gap-3">
+        <div className="flex items-center gap-1 rounded-lg bg-zinc-100 p-1" role="group" aria-label="Modo de edição">
+          <button
+            onClick={() => setMode("texto")}
+            title="Clique nos textos do preview para editar"
+            className={`inline-flex h-8 cursor-pointer items-center gap-1.5 rounded-md px-3 text-xs font-semibold ${mode === "texto" ? "bg-white shadow-sm" : "text-zinc-500 hover:text-zinc-900"}`}
+          >
+            <Type size={14} /> Editar texto
+          </button>
+          <button
+            onClick={() => setMode("mover")}
+            title="Arraste qualquer elemento. Delete exclui, setas ajustam."
+            className={`inline-flex h-8 cursor-pointer items-center gap-1.5 rounded-md px-3 text-xs font-semibold ${mode === "mover" ? "bg-indigo-600 text-white shadow-sm" : "text-zinc-500 hover:text-zinc-900"}`}
+          >
+            <Move size={14} /> Mover / excluir
+          </button>
+        </div>
+        <div className="flex items-center gap-1 rounded-lg bg-zinc-100 p-1">
           {(Object.keys(DEVICES) as (keyof typeof DEVICES)[]).map((k) => {
             const D = DEVICES[k];
             return (
@@ -141,6 +168,7 @@ export function Editor({ id }: { id: string }) {
               </button>
             );
           })}
+        </div>
         </div>
         <div className="flex items-center gap-1">
           <button disabled={!canUndo} onClick={() => useEditor.getState().undo()} title="Desfazer (Ctrl+Z)" aria-label="Desfazer" className="grid size-9 cursor-pointer place-items-center rounded-lg hover:bg-zinc-100 disabled:opacity-30">

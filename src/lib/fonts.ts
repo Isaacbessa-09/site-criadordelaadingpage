@@ -1,5 +1,5 @@
 // Fontes do Google disponíveis no editor. "w" = pesos disponíveis.
-export const FONTS: { name: string; w: string; kind: "sans" | "serif" | "display" }[] = [
+export const FONTS: { name: string; w: string; kind: "sans" | "serif" | "display" | "script" }[] = [
   { name: "Inter", w: "400;500;600;700;800", kind: "sans" },
   { name: "Inter Tight", w: "400;500;600;700;800", kind: "sans" },
   { name: "Manrope", w: "400;500;600;700;800", kind: "sans" },
@@ -29,6 +29,13 @@ export const FONTS: { name: string; w: string; kind: "sans" | "serif" | "display
   { name: "Instrument Serif", w: "400", kind: "serif" },
   { name: "Cormorant Garamond", w: "400;500;600;700", kind: "serif" },
   { name: "Lora", w: "400;500;600;700", kind: "serif" },
+  { name: "Marcellus", w: "400", kind: "serif" },
+  { name: "Bodoni Moda", w: "400;500;600;700", kind: "serif" },
+  { name: "Jost", w: "300;400;500;600;700", kind: "sans" },
+  { name: "Allura", w: "400", kind: "script" },
+  { name: "Great Vibes", w: "400", kind: "script" },
+  { name: "Parisienne", w: "400", kind: "script" },
+  { name: "Dancing Script", w: "400;500;600;700", kind: "script" },
 ];
 
 export function fontsHref(names: string[]): string {
@@ -37,6 +44,11 @@ export function fontsHref(names: string[]): string {
     .map((n) => {
       const f = FONTS.find((x) => x.name === n);
       const w = f?.w ?? "400;700";
+      // fontes serifadas também carregam o itálico (usado no destaque)
+      if (f?.kind === "serif" && w.includes(";")) {
+        const ws = w.split(";");
+        return `family=${n.replace(/ /g, "+")}:ital,wght@${[...ws.map((x) => `0,${x}`), ...ws.map((x) => `1,${x}`)].join(";")}`;
+      }
       return `family=${n.replace(/ /g, "+")}:wght@${w}`;
     })
     .join("&");

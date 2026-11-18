@@ -99,7 +99,7 @@ export default function Home() {
       <section>
         <h2 className="text-3xl font-semibold tracking-tight">Escolha um template</h2>
         <p className="mt-2 text-zinc-500">Cada template serve para vários nichos. A IA reescreve a copy e você troca fotos, logo, cores e fontes.</p>
-        <div className="mt-8 grid gap-6 md:grid-cols-3">
+        <div className="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
           {TEMPLATES.map((t) => (
             <button
               key={t.id}

@@ -2,7 +2,7 @@
 
 import { create } from "zustand";
 import { setIn, uid } from "@/lib/path";
-import type { PageDoc, Section, SectionStyle, Theme } from "@/lib/types";
+import type { ElState, PageDoc, Section, SectionStyle, Theme } from "@/lib/types";
 
 type Tab = "dobras" | "editar" | "design" | "ia";
 
@@ -86,6 +86,24 @@ export const actions = {
   },
   page(patch: Partial<PageDoc>, tag?: string) {
     E().set((p) => ({ ...p, ...patch }), tag);
+  },
+  /** Move / exclui / restaura um elemento dentro de uma dobra. */
+  el(id: string, path: string, patch: Partial<ElState>) {
+    E().set((p) => ({
+      ...p,
+      sections: p.sections.map((s) => {
+        if (s.id !== id) return s;
+        const cur = { ...(s.style.el?.[path] ?? {}), ...patch };
+        const clean = Object.fromEntries(Object.entries(cur).filter(([, v]) => v !== 0 && v !== false && v !== undefined));
+        const el = { ...(s.style.el ?? {}) };
+        if (Object.keys(clean).length) el[path] = clean;
+        else delete el[path];
+        return { ...s, style: { ...s.style, el } };
+      }),
+    }));
+  },
+  resetEls(id: string) {
+    E().set((p) => ({ ...p, sections: p.sections.map((s) => (s.id === id ? { ...s, style: { ...s.style, el: {} } } : s)) }));
   },
   replaceSection(section: Section) {
     E().set((p) => ({ ...p, sections: p.sections.map((s) => (s.id === section.id ? section : s)) }));

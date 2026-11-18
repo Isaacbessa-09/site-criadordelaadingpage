@@ -171,3 +171,30 @@ details.faq .faq-body { animation: heroUp 0.4s ease both; }
   .site nav.fixed, .site .nav-fixed { position: absolute !important; }
   section { break-inside: avoid-page; }
 }
+
+/* ---- Elementos movidos manualmente (d = computador/tablet, m = celular) ---- */
+.mv { translate: var(--mx, 0px) var(--my, 0px); }
+@media (min-width: 768px) {
+  .mv { translate: var(--dx, 0px) var(--dy, 0px); }
+}
+
+/* ---- Modo "Mover / excluir" no editor ---- */
+.editing.mode-mover [data-el] { cursor: move; user-select: none; }
+.editing.mode-mover [data-el]:hover { outline: 1.5px dashed rgb(99 102 241); outline-offset: 3px; }
+.editing.mode-mover a, .editing.mode-mover summary { cursor: move; }
+.editing .el-selected { outline: 2px solid rgb(99 102 241) !important; outline-offset: 3px; }
+.editing.mode-mover [data-sid]:hover { outline: none; }
+
+/* ---- Tema com fonte cursiva nas etiquetas e destaque em itálico ---- */
+.site.has-script .eyebrow {
+  border: 0; padding: 0; border-radius: 0;
+  font-family: var(--f-s), cursive; font-weight: 400;
+  text-transform: none; letter-spacing: 0;
+  font-size: 1.9rem; line-height: 1; color: var(--c-accent);
+}
+.site.has-script .eyebrow-dot { display: none; }
+.site.hl-italic .hl { font-style: italic; }
+.script { font-family: var(--f-s), cursive; font-weight: 400; text-transform: none; letter-spacing: 0; }
+
+/* Texto vazado (contorno) para faixas elegantes */
+.outline-text { color: transparent; -webkit-text-stroke: 1px var(--c-accent); }

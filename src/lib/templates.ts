@@ -383,6 +383,158 @@ const clinica = (): Tpl => ({
   ],
 });
 
+/* ============================================================
+   4) BELEZA — lash designer, sobrancelhas, manicure, estética, salão
+   ============================================================ */
+const beleza = (): Tpl => ({
+  templateId: "beleza",
+  brand: { name: "Maison Belle", logo: "" },
+  seo: { title: "Maison Belle — Beauty Studio", description: "Cílios, sobrancelhas, unhas e estética com atendimento exclusivo." },
+  theme: {
+    colors: {
+      bg: "#FBF7F2", surface: "#F4ECE3", ink: "#241812", muted: "#7A5C4A",
+      primary: "#4A3427", onPrimary: "#FBF7F2", accent: "#96694A", onAccent: "#FFFFFF",
+      dark: "#241812", onDark: "#FBF7F2",
+    },
+    fontHeading: "Cormorant Garamond", fontBody: "Jost", fontScript: "Allura", highlightItalic: true,
+    radius: 18, headingWeight: 500, headingUppercase: false, headingTracking: -0.01,
+  },
+  sections: [
+    sec("navbar", {
+      links: [
+        { label: "Serviços", href: "#servicos" }, { label: "Sobre", href: "#sobre" },
+        { label: "Resultados", href: "#galeria" }, { label: "Contato", href: "#contato" },
+      ],
+      ctaLabel: "Agendar horário", ctaHref: "#como-funciona",
+    }, { variant: "solid" }),
+    sec("hero", {
+      eyebrow: "Estética avançada · Resultados naturais",
+      title: "Realce a sua beleza natural.",
+      highlight: "beleza natural.",
+      subtitle: "Cílios, sobrancelhas, unhas e estética com técnicas personalizadas para valorizar o que você tem de mais bonito.",
+      ctaLabel: "Agendar horário", ctaHref: "#como-funciona",
+      cta2Label: "Conhecer serviços", cta2Href: "#servicos",
+      image: img("1581182800629-7d90925ad072", 1600),
+      seal: "cuidado exclusivo • beleza natural • ",
+      proofValue: "4,9 ★", proofLabel: "+800 clientes atendidas",
+      avatars: PEOPLE.slice(0, 4).map((image) => ({ image })),
+      badges: [],
+    }, { variant: "editorial", padding: "lg" }),
+    sec("marquee", {
+      items: [{ text: "Lash Design" }, { text: "Sobrancelhas" }, { text: "Manicure" }, { text: "Limpeza de Pele" }, { text: "Maquiagem" }, { text: "Cabelo" }],
+    }, { variant: "elegant", tone: "base", anim: "fade" }),
+    sec("services", {
+      eyebrow: "nossos serviços",
+      title: "Feito sob medida para você",
+      highlight: "para você",
+      subtitle: "Cada procedimento é pensado para o seu estilo, o seu rosto e o seu momento.",
+      items: [
+        { image: img("1589710751893-f9a6770ad71b", 900), icon: "Eye", tag: "", title: "Lash Design", text: "Extensão de cílios fio a fio, volume brasileiro, egípcio e mais." },
+        { image: img("1632345031435-8727f6897d53", 900), icon: "Gem", tag: "", title: "Unhas", text: "Manicure, pedicure, alongamento em gel e nail art." },
+        { image: img("1570172619644-dfd03ed5d881", 900), icon: "Flower2", tag: "", title: "Estética Facial", text: "Limpeza de pele, hidratação profunda e revitalização." },
+        { image: img("1634449571010-02389ed0f9b0", 900), icon: "Scissors", tag: "", title: "Cabelo", text: "Corte, escova, coloração e tratamentos capilares." },
+      ],
+      ctaLabel: "Saiba mais", ctaHref: "#como-funciona",
+    }, { variant: "stacked", align: "center" }),
+    sec("about", {
+      eyebrow: "sobre mim",
+      title: "Beleza nos detalhes. Cuidado em cada atendimento.",
+      highlight: "Cuidado em cada atendimento.",
+      subtitle: "",
+      text: "Prazer, eu sou a Ana Clara. Há mais de 8 anos transformo a autoestima das minhas clientes com técnicas atualizadas e um atendimento acolhedor.\n\nAqui cada detalhe é pensado para você se sentir única, do primeiro contato ao resultado final.",
+      bullets: [{ text: "Certificações nacionais" }, { text: "Produtos premium" }, { text: "Ambiente acolhedor" }, { text: "Biossegurança total" }],
+      image: img("1639531167411-2fbab09f57f6", 1000), image2: img("1674049406467-824ea37c7184", 600),
+      watermark: "beauty studio", signature: "Ana Clara",
+      badgeValue: "", badgeLabel: "",
+      ctaLabel: "Agendar comigo", ctaHref: "#como-funciona",
+    }, { variant: "arch" }),
+    sec("features", {
+      eyebrow: "por que escolher",
+      title: "Cada detalhe pensado para você",
+      highlight: "pensado para você",
+      subtitle: "",
+      items: [
+        { icon: "Sparkles", title: "Personalização", text: "Cada procedimento pensado para o seu rosto e estilo." },
+        { icon: "Feather", title: "Atenção aos detalhes", text: "Cuidado minucioso do início ao fim." },
+        { icon: "Armchair", title: "Ambiente confortável", text: "Um espaço acolhedor para você relaxar." },
+        { icon: "BadgeCheck", title: "Técnicas profissionais", text: "Aperfeiçoamento constante e segurança." },
+        { icon: "Heart", title: "Experiência única", text: "Atendimento exclusivo, só com hora marcada." },
+      ],
+    }, { variant: "linhas", tone: "dark", align: "center" }),
+    sec("gallery", {
+      eyebrow: "galeria de resultados",
+      title: "Resultados que falam por si",
+      highlight: "falam por si",
+      items: [
+        img("1639629509821-c54cdd984227", 800), img("1610992015762-45dca7fa3a85", 800), img("1761718209835-c8586b7dcac0", 800),
+        img("1773688189414-7637b9b138e1", 800), img("1519415387722-a1c3bbef716c", 800), img("1630843599725-32ead7671867", 800),
+        img("1580618672591-eb180b1a973f", 800), img("1519014816548-bf5fe059798b", 800),
+      ].map((image) => ({ image })),
+    }, { align: "left" }),
+    sec("testimonials", {
+      eyebrow: "depoimentos",
+      title: "O que dizem as clientes",
+      highlight: "as clientes",
+      items: [
+        { quote: "Meus cílios ficaram perfeitos e super naturais. Atendimento impecável, me senti muito cuidada.", name: "Juliana M.", role: "Lash Design", image: PEOPLE[0] },
+        { quote: "Melhor manicure que já fiz, durou semanas! O ambiente é lindo e muito confortável.", name: "Camila R.", role: "Unhas em gel", image: PEOPLE[2] },
+        { quote: "A limpeza de pele mudou minha autoestima. Profissional atenciosa e super caprichosa.", name: "Fernanda S.", role: "Estética facial", image: PEOPLE[3] },
+      ],
+    }, { tone: "surface" }),
+    sec("steps", {
+      eyebrow: "agende já",
+      title: "Seu momento de cuidado começa aqui.",
+      highlight: "começa aqui.",
+      subtitle: "Reserve seu horário e descubra uma experiência pensada especialmente para você.",
+      image: "",
+      seal: "agende já • faça seu agendamento • ",
+      items: [
+        { title: "Escolha o serviço", text: "Cílios, sobrancelhas, unhas, estética ou cabelo." },
+        { title: "Diga o melhor dia e horário", text: "Atendimento somente com hora marcada." },
+        { title: "Confirme pelo WhatsApp", text: "Você recebe a confirmação na hora." },
+      ],
+      ctaLabel: "Agendar", ctaHref: "#contato",
+    }, { variant: "booking", tone: "surface" }),
+    sec("faq", {
+      eyebrow: "dúvidas",
+      title: "Perguntas frequentes",
+      items: [
+        { q: "Quanto tempo dura a extensão de cílios?", a: "Com os cuidados certos, de 3 a 4 semanas. Indicamos manutenção a cada 15 a 20 dias." },
+        { q: "Preciso ir sem maquiagem?", a: "Sim, para procedimentos nos olhos e no rosto venha com a pele limpa." },
+        { q: "Quais as formas de pagamento?", a: "Pix, cartão de crédito em até 3x e débito." },
+        { q: "Posso remarcar meu horário?", a: "Pode, avisando com pelo menos 24 horas de antecedência." },
+      ],
+    }),
+    sec("cta", {
+      eyebrow: "beleza · confiança · você",
+      title: "A confiança começa com você.",
+      subtitle: "Agende seu horário e viva uma experiência de cuidado de verdade.",
+      ctaLabel: "Agendar meu horário", ctaHref: "#contato",
+      image: img("1746723378067-83a345ff3160", 2000),
+    }, { tone: "base", align: "left" }),
+    sec("features", {
+      eyebrow: "", title: "", subtitle: "",
+      items: [
+        { icon: "BadgeCheck", title: "Profissionais certificadas", text: "" },
+        { icon: "Gem", title: "Produtos premium", text: "" },
+        { icon: "Star", title: "Atendimento personalizado", text: "" },
+        { icon: "Heart", title: "Resultados naturais", text: "" },
+      ],
+    }, { variant: "bar", tone: "surface", padding: "sm", anim: "fade" }),
+    sec("contact", {
+      eyebrow: "contato", title: "Venha se cuidar com a gente",
+      address: "Rua das Flores, 120 - Jardins, São Paulo - SP", phone: "(11) 99999-1234", whatsapp: "5511999991234",
+      email: "contato@maisonbelle.com.br", instagram: "@maisonbelle", hours: "Ter a Sex: 9h às 19h\nSáb: 9h às 15h",
+      mapQuery: "Jardins, São Paulo",
+    }),
+    sec("footer", {
+      text: "Beleza nos detalhes. Cuidado em cada atendimento.",
+      links: [{ label: "Serviços", href: "#servicos" }, { label: "Sobre", href: "#sobre" }, { label: "Contato", href: "#contato" }],
+      copyright: "© 2026 Maison Belle. Todos os direitos reservados.",
+    }),
+  ],
+});
+
 export const TEMPLATES: (TemplateMeta & { build: () => Tpl })[] = [
   {
     id: "esporte", name: "Arena", niche: "Esportes: padel, tênis, beach tennis, academias",
@@ -398,5 +550,10 @@ export const TEMPLATES: (TemplateMeta & { build: () => Tpl })[] = [
     id: "clinica", name: "Vitta", niche: "Clínicas e especialistas: odonto, estética, saúde",
     description: "Transmite confiança: selos, especialista, tratamentos, passo a passo e FAQ.",
     cover: img("1777331903190-341a3dd0441b", 900), build: clinica,
+  },
+  {
+    id: "beleza", name: "Maison Belle", niche: "Beleza: lash, sobrancelhas, unhas, estética, salão",
+    description: "Elegante e sofisticado: hero editorial com selo girando, foto em arco, assinatura e agendamento.",
+    cover: img("1589710751893-f9a6770ad71b", 900), build: beleza,
   },
 ];

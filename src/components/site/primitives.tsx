@@ -2,11 +2,14 @@
 
 import { createContext, useContext, useEffect, useRef, useState, type CSSProperties, type ElementType, type ReactNode } from "react";
 import * as Icons from "lucide-react";
-import type { Anim, SectionStyle } from "@/lib/types";
+import type { Anim, ElState, SectionStyle } from "@/lib/types";
 
 /* ---------- Contextos ---------- */
+export type EditMode = "texto" | "mover";
 export interface SiteCtx {
   editable: boolean;
+  mode?: EditMode;
+  selectedEl?: string | null; // "sectionId:path"
   brand?: { name: string; logo: string };
   onEdit?: (sectionId: string, path: string, value: string) => void;
   onSelect?: (sectionId: string, path?: string) => void;
@@ -17,14 +20,50 @@ export const SectionContext = createContext<{ id: string; style: SectionStyle } 
 export const useSite = () => useContext(SiteContext);
 export const useSection = () => useContext(SectionContext)!;
 
+/* ---------- Elemento movível / removível ---------- */
+/**
+ * Cada texto, botão, imagem e ícone tem uma "chave" (path). O ajuste manual
+ * (posição arrastada e "excluído") fica em section.style.el[path].
+ * A posição usa a propriedade CSS `translate`, que não briga com as animações (que usam transform).
+ */
+export function useEl(path: string | undefined) {
+  const site = useSite();
+  const sec = useContext(SectionContext);
+  if (!path || !sec) return { hidden: false, props: {} as Record<string, unknown>, cls: "" };
+  const st: ElState = sec.style.el?.[path] ?? {};
+  const moved = st.dx || st.dy || st.mx || st.my;
+  const style = moved
+    ? ({ "--dx": `${st.dx ?? 0}px`, "--dy": `${st.dy ?? 0}px`, "--mx": `${st.mx ?? 0}px`, "--my": `${st.my ?? 0}px` } as CSSProperties)
+    : undefined;
+  const selected = site.editable && site.selectedEl === `${sec.id}:${path}`;
+  return {
+    hidden: !!st.hidden,
+    cls: `${moved ? "mv" : ""} ${selected ? "el-selected" : ""}`,
+    props: { ...(site.editable ? { "data-el": path } : {}), ...(style ? { style } : {}) } as Record<string, unknown>,
+  };
+}
+
+/** Envolve qualquer coisa (ícone, selo, cartão) para poder mover/excluir. */
+export function El({ path, as: Tag = "div", className = "", children }: { path: string; as?: ElementType; className?: string; children?: ReactNode }) {
+  const el = useEl(path);
+  if (el.hidden) return null;
+  const { style, ...rest } = el.props as { style?: CSSProperties };
+  return (
+    <Tag className={`${className} ${el.cls}`} style={style} {...rest}>
+      {children}
+    </Tag>
+  );
+}
+
 /* ---------- Texto editável ---------- */
 export function T({
   path,
   value,
   as: Tag = "span",
-  className,
+  className = "",
   style,
   render,
+  movable = true,
 }: {
   path: string;
   value?: string;
@@ -32,34 +71,43 @@ export function T({
   className?: string;
   style?: CSSProperties;
   render?: (v: string) => ReactNode;
+  movable?: boolean;
 }) {
-  const { editable, onEdit } = useSite();
+  const { editable, onEdit, mode } = useSite();
   const sec = useSection();
+  const el = useEl(movable ? path : undefined);
+  if (el.hidden) return null;
+  const { style: elStyle, ...elProps } = el.props as { style?: CSSProperties };
+  const st = elStyle || style ? { ...style, ...elStyle } : undefined;
+  const cls = `${className} ${el.cls}`;
   if (!editable) {
     if (!value) return null;
     return (
-      <Tag className={className} style={style}>
+      <Tag className={cls} style={st}>
         {render ? render(value) : value}
       </Tag>
     );
   }
+  const textMode = mode !== "mover";
   return (
     <Tag
       key={value ?? ""}
-      className={className}
-      style={style}
-      contentEditable
+      className={cls}
+      style={st}
+      {...elProps}
+      contentEditable={textMode}
       suppressContentEditableWarning
       spellCheck={false}
       data-placeholder={value ? undefined : "…"}
       onClick={(e: React.MouseEvent) => {
         e.preventDefault();
-        e.stopPropagation();
+        if (textMode) e.stopPropagation();
       }}
       onKeyDown={(e: React.KeyboardEvent<HTMLElement>) => {
         if (e.key === "Escape") (e.target as HTMLElement).blur();
       }}
       onBlur={(e: React.FocusEvent<HTMLElement>) => {
+        if (!textMode) return;
         const v = e.currentTarget.innerText.replace(/\n$/, "");
         if (v !== (value ?? "")) onEdit?.(sec.id, path, v);
       }}
@@ -74,7 +122,7 @@ export function Img({
   path,
   src,
   alt = "",
-  className,
+  className = "",
   imgClassName,
   eager,
 }: {
@@ -85,14 +133,19 @@ export function Img({
   imgClassName?: string;
   eager?: boolean;
 }) {
-  const { editable, onSelect } = useSite();
+  const { editable, onSelect, mode } = useSite();
   const sec = useSection();
+  const el = useEl(path);
+  if (el.hidden) return null;
+  const { style, ...elProps } = el.props as { style?: CSSProperties };
   return (
     <div
-      className={className}
+      className={`${className} ${el.cls}`}
+      style={style}
+      {...elProps}
       data-img={editable ? "1" : undefined}
       onClick={
-        editable
+        editable && mode !== "mover"
           ? (e) => {
               e.preventDefault();
               e.stopPropagation();
@@ -103,7 +156,7 @@ export function Img({
     >
       {src ? (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={src} alt={alt} loading={eager ? "eager" : "lazy"} decoding="async" className={imgClassName ?? "h-full w-full object-cover"} />
+        <img src={src} alt={alt} draggable={false} loading={eager ? "eager" : "lazy"} decoding="async" className={imgClassName ?? "h-full w-full object-cover"} />
       ) : (
         <div className="grid h-full w-full place-items-center bg-[color-mix(in_srgb,var(--ink)_8%,transparent)] text-xs text-muted">
           sem imagem
@@ -114,9 +167,9 @@ export function Img({
 }
 
 /* ---------- Ícone ---------- */
-export function Icon({ name, className, size = 22 }: { name?: string; className?: string; size?: number }) {
-  const Cmp = (Icons as unknown as Record<string, React.ComponentType<{ className?: string; size?: number; "aria-hidden"?: boolean }>>)[name || "Sparkles"] ?? Icons.Sparkles;
-  return <Cmp className={className} size={size} aria-hidden />;
+export function Icon({ name, className, size = 22, strokeWidth }: { name?: string; className?: string; size?: number; strokeWidth?: number }) {
+  const Cmp = (Icons as unknown as Record<string, React.ComponentType<{ className?: string; size?: number; strokeWidth?: number; "aria-hidden"?: boolean }>>)[name || "Sparkles"] ?? Icons.Sparkles;
+  return <Cmp className={className} size={size} strokeWidth={strokeWidth} aria-hidden />;
 }
 
 /* ---------- Botão ---------- */
@@ -136,7 +189,10 @@ export function Btn({
   className?: string;
 }) {
   const { editable } = useSite();
+  const el = useEl(`btn:${labelPath}`);
+  if (el.hidden) return null;
   if (!label && !editable) return null;
+  const { style, ...elProps } = el.props as { style?: CSSProperties };
   const kinds: Record<string, string> = {
     accent: "bg-accent text-on-accent",
     primary: "bg-primary text-on-primary",
@@ -155,9 +211,11 @@ export function Btn({
     <a
       href={href || "#"}
       onClick={editable ? (e) => e.preventDefault() : undefined}
-      className={`btn group inline-flex min-h-12 cursor-pointer items-center gap-3 rounded-full py-2 pl-6 text-[15px] font-semibold ${arrow ? "pr-2" : "pr-6"} ${kinds[kind]} ${className}`}
+      style={style}
+      {...elProps}
+      className={`btn group inline-flex min-h-12 cursor-pointer items-center gap-3 rounded-full py-2 pl-6 text-[15px] font-semibold ${arrow ? "pr-2" : "pr-6"} ${kinds[kind]} ${className} ${el.cls}`}
     >
-      <T path={labelPath} value={label} />
+      <T path={labelPath} value={label} movable={false} />
       {arrow && (
         <span className={`btn-ico grid size-9 place-items-center rounded-full ${icoBg[kind]}`}>
           <Icons.ArrowUpRight size={18} aria-hidden />
@@ -166,6 +224,7 @@ export function Btn({
     </a>
   );
 }
+
 
 /* ---------- Reveal (animação ao rolar) ---------- */
 export function Reveal({
@@ -263,7 +322,7 @@ export function SectionHead({
   className = "",
   titleClass = "text-4xl md:text-5xl",
 }: {
-  p: { eyebrow?: string; title?: string; subtitle?: string };
+  p: { eyebrow?: string; title?: string; subtitle?: string; highlight?: string };
   className?: string;
   titleClass?: string;
 }) {
@@ -275,14 +334,14 @@ export function SectionHead({
     <div className={`flex max-w-3xl flex-col gap-4 ${al} ${className}`}>
       {(p.eyebrow || editable) && (
         <Reveal i={0}>
-          <span className="inline-flex items-center gap-2 rounded-full border border-line px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-ink">
-            <span className="size-1.5 rounded-full bg-accent" />
-            <T path="eyebrow" value={p.eyebrow} />
-          </span>
+          <El path="eyebrow" as="span" className="eyebrow inline-flex items-center gap-2 rounded-full border border-line px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-ink">
+            <span className="eyebrow-dot size-1.5 rounded-full bg-accent" />
+            <T path="eyebrow" value={p.eyebrow} movable={false} />
+          </El>
         </Reveal>
       )}
       <Reveal i={1}>
-        <T as="h2" path="title" value={p.title} className={`h block ${titleClass}`} />
+        <T as="h2" path="title" value={p.title} render={(t) => highlight(t, p.highlight)} className={`h block ${titleClass}`} />
       </Reveal>
       {(p.subtitle || editable) && (
         <Reveal i={2}>
@@ -293,5 +352,18 @@ export function SectionHead({
   );
 }
 
-export const alignClass = (a: string) => (a === "center" ? "text-center" : a === "right" ? "text-right" : "text-left");
+/** Pinta (e deixa em itálico, se o tema pedir) um trecho do título. */
+export function highlight(text: string, word?: string): ReactNode {
+  if (!word || !text.toLowerCase().includes(word.toLowerCase())) return text;
+  const i = text.toLowerCase().indexOf(word.toLowerCase());
+  return (
+    <>
+      {text.slice(0, i)}
+      <span className="hl text-accent">{text.slice(i, i + word.length)}</span>
+      {text.slice(i + word.length)}
+    </>
+  );
+}
+
+export const alignClass =(a: string) => (a === "center" ? "text-center" : a === "right" ? "text-right" : "text-left");
 export const justifyClass = (a: string) => (a === "center" ? "justify-center" : a === "right" ? "justify-end" : "justify-start");
